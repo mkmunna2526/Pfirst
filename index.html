@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiniGame Pro</title>
+    <title>ZAM - Premium Digital Products</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
@@ -15,170 +16,305 @@
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
+            max-width: 400px;
+            margin: 0 auto;
+            position: relative;
         }
 
-        .app-container {
-            width: 350px;
+        .container {
             background: white;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .main-buttons {
+            display: flex;
+            padding: 15px;
+            gap: 10px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 400px;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .main-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-icon {
+            font-size: 18px;
+        }
+
+        .btn-products {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-account, .btn-orders {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .content {
+            padding: 20px 15px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
             overflow: hidden;
         }
 
-        .screen {
-            display: none;
-            min-height: 600px;
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
         }
 
-        .screen.active {
-            display: block;
-        }
-
-        /* Home Screen Styles */
-        .score-header {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-
-        .score-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .total-points {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        /* Tic Tac Toe Game */
-        .game-container {
-            padding: 20px;
-            background: #f8f9fa;
-        }
-
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin: 20px 0;
-            background: #2c3e50;
-            padding: 5px;
-            border-radius: 10px;
-        }
-
-        .cell {
-            aspect-ratio: 1;
-            background: #ecf0f1;
-            border: none;
+        .product-icon {
             font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 5px;
-        }
-
-        .cell:hover {
-            background: #d5dbdb;
-        }
-
-        .cell.x {
-            color: #e74c3c;
-            background: #ffebee;
-        }
-
-        .cell.o {
-            color: #3498db;
-            background: #e3f2fd;
-        }
-
-        .game-status {
             text-align: center;
-            font-size: 18px;
-            margin: 15px 0;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .product-price {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
             font-weight: bold;
-        }
-
-        .reset-btn {
-            width: 100%;
-            padding: 12px;
-            background: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .reset-btn:hover {
-            background: #27ae60;
-        }
-
-        /* Navigation */
-        .nav-bar {
-            display: flex;
-            background: #34495e;
-            padding: 10px 0;
-        }
-
-        .nav-btn {
-            flex: 1;
-            padding: 15px 10px;
-            background: transparent;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
+            text-align: center;
+            margin: 10px 0;
             font-size: 14px;
         }
 
-        .nav-btn.active, .nav-btn:hover {
-            background: #2c3e50;
+        .product-stock {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
-        /* Tasks Screen */
-        .tasks-header {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            padding: 20px;
+        .available { color: #28a745; }
+        .limited { color: #ffc107; }
+        .soldout { color: #dc3545; }
+
+        .buy-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .account-section {
+            display: none;
+            padding: 20px;
+        }
+
+        .orders-section {
+            display: none;
+            padding: 20px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
             text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .profile-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-right: 15px;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .profile-info p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .tasks-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
         .task-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 15px 0;
             border-bottom: 1px solid #eee;
-            transition: background 0.3s;
         }
 
-        .task-item:hover {
-            background: #f8f9fa;
+        .task-item:last-child {
+            border-bottom: none;
         }
-
-        .task-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .youtube { background: #ff0000; }
-        .telegram { background: #0088cc; }
-        .twitter { background: #1da1f2; }
-        .instagram { background: #e4405f; }
-        .facebook { background: #1877f2; }
 
         .task-info {
             flex: 1;
@@ -190,805 +326,642 @@
         }
 
         .task-reward {
-            color: #27ae60;
+            color: #28a745;
             font-size: 14px;
         }
 
         .task-btn {
-            padding: 8px 16px;
-            background: #2ecc71;
+            padding: 8px 15px;
+            background: #28a745;
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
+            font-size: 12px;
+            min-width: 60px;
         }
 
-        .task-btn:hover {
-            background: #27ae60;
-        }
-
-        .task-btn:disabled {
-            background: #95a5a6;
+        .task-btn.completed {
+            background: #6c757d;
             cursor: not-allowed;
         }
 
-        /* Invite Screen */
-        .invite-header {
-            background: linear-gradient(45deg, #fa709a, #fee140);
+        .purchased-section {
+            background: white;
+            border-radius: 15px;
             padding: 20px;
-            color: white;
-            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .invite-content {
-            padding: 20px;
-        }
-
-        .invite-link {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            word-break: break-all;
-            font-family: monospace;
-        }
-
-        .invite-stats {
-            background: #e8f5e8;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-        }
-
-        .invited-user {
+        .purchased-item {
             display: flex;
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #eee;
         }
 
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #3498db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            margin-right: 10px;
+        .purchased-item:last-child {
+            border-bottom: none;
         }
 
-        /* Airdrop Screen */
-        .airdrop-header {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            padding: 20px;
-            color: white;
-            text-align: center;
+        .purchased-icon {
+            font-size: 24px;
+            margin-right: 15px;
         }
 
-        .airdrop-content {
-            padding: 20px;
-        }
-
-        .airdrop-info {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Telegram Connect Section */
-        .telegram-connect {
-            background: #0088cc;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .telegram-btn {
-            background: #ffffff;
-            color: #0088cc;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 10px 0;
-            transition: background 0.3s;
-        }
-
-        .telegram-btn:hover {
-            background: #f0f0f0;
-        }
-
-        .user-info {
-            background: #e8f5e8;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .user-name {
+        .section-title {
             font-size: 18px;
             font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+            color: #333;
         }
 
-        .user-id {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
-
-        .update-section {
+        .telegram-link {
+            background: #0088cc;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
             margin: 20px 0;
-        }
-
-        .update-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-
-        .withdraw-form {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .form-group {
-            margin: 15px 0;
-        }
-
-        .form-group label {
+            text-decoration: none;
             display: block;
-            margin-bottom: 5px;
             font-weight: bold;
         }
 
-        .form-group select,
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
+        .progress-bar {
+            background: #e9ecef;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 5px;
         }
 
-        .form-buttons {
+        .progress-fill {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+
+        .order-header {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        .btn {
-            flex: 1;
-            padding: 12px;
+        .order-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .order-status {
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .order-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .login-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .login-btn {
+            background: #0088cc;
+            color: white;
+            padding: 15px 30px;
             border: none;
-            border-radius: 8px;
+            border-radius: 25px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .btn-primary {
-            background: #007bff;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .screen.active {
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        /* Responsive */
-        @media (max-width: 400px) {
-            .app-container {
-                width: 100%;
-                height: 100vh;
-                border-radius: 0;
-            }
+        .login-btn:hover {
+            background: #0077bb;
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Home Screen -->
-        <div class="screen active" id="homeScreen">
-            <div class="score-header">
-                <div class="score-info">
-                    <div>Player X Points: <span id="playerXPoints">0</span></div>
-                    <div>Player O Points: <span id="playerOPoints">0</span></div>
+    <div class="container">
+        <div class="header">
+            <h1>ZAM</h1>
+            <p>Premium Digital Products</p>
+            <div id="user-info" class="user-info" style="display: none;">
+                <div class="user-avatar">
+                    <span id="user-avatar-text">👤</span>
                 </div>
-                <div class="total-points">Total Points: <span id="totalPoints">0</span></div>
-            </div>
-            
-            <div class="game-container">
-                <div class="game-status" id="gameStatus">Player X's Turn</div>
-                <div class="game-board" id="gameBoard">
-                    <button class="cell" onclick="makeMove(0)"></button>
-                    <button class="cell" onclick="makeMove(1)"></button>
-                    <button class="cell" onclick="makeMove(2)"></button>
-                    <button class="cell" onclick="makeMove(3)"></button>
-                    <button class="cell" onclick="makeMove(4)"></button>
-                    <button class="cell" onclick="makeMove(5)"></button>
-                    <button class="cell" onclick="makeMove(6)"></button>
-                    <button class="cell" onclick="makeMove(7)"></button>
-                    <button class="cell" onclick="makeMove(😎"></button>
+                <div>
+                    <div id="user-name">Loading...</div>
+                    <div id="user-username" style="font-size: 12px; opacity: 0.8;"></div>
                 </div>
-                <button class="reset-btn" onclick="resetGame()">New Game</button>
             </div>
         </div>
 
-        <!-- Tasks Screen -->
-        <div class="screen" id="tasksScreen">
-            <div class="tasks-header">
-                <h2>Complete Tasks & Earn Points</h2>
-                <p>Complete tasks to earn bonus points</p>
-            </div>
-            
-            <div class="task-item">
-                <div class="task-icon youtube">YT</div>
-                <div class="task-info">
-                    <div class="task-title">Subscribe to YouTube Channel</div>
-                    <div class="task-reward">+10 Points</div>
-                </div>
-                <button class="task-btn" onclick="completeTask('youtube', 10, 'https://www.youtube.com/@MrBeast')">Start</button>
-            </div>
-
-            <div class="task-item">
-                <div class="task-icon telegram">TG</div>
-                <div class="task-info">
-                    <div class="task-title">Follow Telegram Channel</div>
-                    <div class="task-reward">+15 Points</div>
-                </div>
-                <button class="task-btn" onclick="completeTask('telegram', 15, 'https://t.me/durov')">Start</button>
-            </div>
-
-            <div class="task-item">
-                <div class="task-icon twitter">TW</div>
-                <div class="task-info">
-                    <div class="task-title">Follow on Twitter</div>
-                    <div class="task-reward">+12 Points</div>
-                </div>
-                <button class="task-btn" onclick="completeTask('twitter', 12, 'https://twitter.com/elonmusk')">Start</button>
-            </div>
-
-            <div class="task-item">
-                <div class="task-icon instagram">IG</div>
-                <div class="task-info">
-                    <div class="task-title">Follow on Instagram</div>
-                    <div class="task-reward">+8 Points</div>
-                </div>
-                <button class="task-btn" onclick="completeTask('instagram', 8, 'https://www.instagram.com/cristiano/')">Start</button>
-            </div>
-
-            <div class="task-item">
-                <div class="task-icon facebook">FB</div>
-                <div class="task-info">
-                    <div class="task-title">Like Facebook Page</div>
-                    <div class="task-reward">+10 Points</div>
-                </div>
-                <button class="task-btn" onclick="completeTask('facebook', 10, 'https://www.facebook.com/zuck')">Start</button>
-            </div>
+        <div id="login-section" class="login-section" style="display: none;">
+            <div style="font-size: 48px; margin-bottom: 20px;">🔐</div>
+            <h2 style="margin-bottom: 15px;">Welcome to ZAM</h2>
+            <p style="margin-bottom: 30px; color: #666;">Please connect your Telegram account to continue</p>
+            <button class="login-btn" onclick="initTelegramLogin()">
+                Connect with Telegram
+            </button>
         </div>
 
-        <!-- Invite Screen -->
-        <div class="screen" id="inviteScreen">
-            <div class="invite-header">
-                <h2>Invite Friends!</h2>
-                <p>Invite friends and receive 50 MHK bonus for every account you invited</p>
-            </div>
-            
-            <div class="invite-content">
-                <div class="invite-link">
-                    <strong>Your Invite Link:</strong><br>
-                    https://t.me/MiniGameBot?start=<span id="userInviteCode">ABC123</span>
+        <div id="products-section" class="content">
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-icon">🎩</div>
+                    <div class="product-price">0.05 TON</div>
+                    <div class="product-stock available">Available: 847/1000</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 84.7%"></div>
+                    </div>
+                    <button class="buy-btn" onclick="buyProduct(0.05)">Buy with TON</button>
                 </div>
+
+                <div class="product-card">
+                    <div class="product-icon">👑</div>
+                    <div class="product-price">0.08 TON</div>
+                    <div class="product-stock limited">Available: 234/500</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 46.8%"></div>
+                    </div>
+                    <button class="buy-btn" onclick="buyProduct(0.08)">Buy with TON</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">💎</div>
+                    <div class="product-price">0.12 TON</div>
+                    <div class="product-stock available">Available: 1876/2000</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 93.8%"></div>
+                    </div>
+                    <button class="buy-btn" onclick="buyProduct(0.12)">Buy with TON</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🔥</div>
+                    <div class="product-price">0.03 TON</div>
+                    <div class="product-stock available">Available: 3456/5000</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 69.1%"></div>
+                    </div>
+                    <button class="buy-btn" onclick="buyProduct(0.03)">Buy with TON</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">⚡</div>
+                    <div class="product-price">0.15 TON</div>
+                    <div class="product-stock limited">Available: 89/300</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 29.7%"></div>
+                    </div>
+                    <button class="buy-btn" onclick="buyProduct(0.15)">Buy with TON</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🎯</div>
+                    <div class="product-price">0.07 TON</div>
+                    <div class="product-stock available">Available: 1234/1500</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 82.3%"></div>
+                    </div>
+                    <button class="buy-btn" onclick="buyProduct(0.07)">Buy with TON</button>
+                </div>
+            </div>
+
+            <a href="https://t.me/mtvip999" class="telegram-link" target="_blank">
+                📢 Join Our Telegram Channel
+            </a>
+        </div>
+
+        <div id="account-section" class="account-section">
+            <div class="balance-card">
+                <div class="balance-amount" id="balance">0</div>
+                <div>Points Balance</div>
+            </div>
+
+            <div class="profile-section">
+                <div class="section-title">Profile Information</div>
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <span id="profile-avatar-text">👤</span>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="profile-name">Loading...</h3>
+                        <p id="profile-username">@username</p>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-orders">0</div>
+                        <div class="stat-label">Total Orders</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="tasks-completed">0</div>
+                        <div class="stat-label">Tasks Done</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tasks-section">
+                <div class="section-title">Available Tasks</div>
                 
-                <button class="btn btn-primary" onclick="shareInviteLink()" style="width: 100%; margin: 10px 0;">
-                    Share Invite Link
-                </button>
-                
-                <div class="invite-stats">
-                    <h3>Your Invites (5)</h3>
-                    <div class="invited-user">
-                        <div class="user-avatar">M</div>
-                        <div>
-                            <div>maximus2528</div>
-                            <div style="color: #27ae60; font-size: 12px;">You received 💎 +2.00</div>
-                        </div>
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-title">Subscribe YouTube Channel</div>
+                        <div class="task-reward">+50 Points</div>
                     </div>
-                    <div class="invited-user">
-                        <div class="user-avatar">M</div>
-                        <div>
-                            <div>MUNNA25802502</div>
-                            <div style="color: #27ae60; font-size: 12px;">You received 💎 +2.00</div>
-                        </div>
+                    <button class="task-btn" onclick="completeTask(this, 50, 'https://youtube.com')">Open</button>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-title">Follow Telegram Channel</div>
+                        <div class="task-reward">+30 Points</div>
                     </div>
-                    <div class="invited-user">
-                        <div class="user-avatar">M</div>
-                        <div>
-                            <div>Md Raj</div>
-                            <div style="color: #27ae60; font-size: 12px;">You received 💎 +2.00</div>
-                        </div>
+                    <button class="task-btn" onclick="completeTask(this, 30, 'https://t.me/mtvip999')">Open</button>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-title">Join Telegram Group</div>
+                        <div class="task-reward">+25 Points</div>
+                    </div>
+                    <button class="task-btn" onclick="completeTask(this, 25, 'https://t.me/mtvip999')">Open</button>
+                </div>
+
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-title">Open Telegram Bot</div>
+                        <div class="task-reward">+15 Points</div>
+                    </div>
+                    <button class="task-btn" onclick="completeTask(this, 15, 'https://t.me/mtvip999')">Open</button>
+                </div>
+            </div>
+
+            <div class="purchased-section">
+                <div class="section-title">Purchased Products</div>
+                <div id="purchased-list">
+                    <div style="text-align: center; color: #666; padding: 20px;">
+                        No products purchased yet
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Airdrop Screen -->
-        <div class="screen" id="airdropScreen">
-            <div class="airdrop-header">
-                <h2>Airdrop</h2>
-            </div>
-            
-            <div class="airdrop-content">
-                <!-- Telegram Connect Section -->
-                <div class="telegram-connect" id="telegramConnect">
-                    <h3>📱 Connect Your Telegram</h3>
-                    <p>Connect your Telegram account to access airdrop features</p>
-                    <button class="telegram-btn" onclick="connectTelegram()">
-                        Connect Telegram Account
-                    </button>
-                </div>
-
-                <!-- User Info Section (Hidden initially) -->
-                <div class="user-info" id="userInfo" style="display: none;">
-                    <div class="user-name" id="userName">Welcome!</div>
-                    <div class="user-id" id="userId">@username</div>
-                    <p style="margin-top: 10px; color: #27ae60;">✅ Telegram Connected Successfully</p>
-                </div>
-
-                <div class="airdrop-info">
-                    <h3>Listing Date</h3>
-                    <p>Coming Soon</p>
-                </div>
-                
-                <div class="update-section">
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-primary" onclick="showUpdates()" style="flex: 1;">
-                            New Update
-                        </button>
-                        <button class="btn btn-secondary" onclick="showWithdraw()" style="flex: 1;">
-                            Withdraw
-                        </button>
-                    </div>
-                </div>
-
-                <div id="updatesSection" style="display: none;">
-                    <h3>Latest Updates</h3>
-                    <div class="update-item">
-                        <strong>Version 2.1.0</strong><br>
-                        • Added new game features<br>
-                        • Improved user interface<br>
-                        • Bug fixes and performance improvements
-                    </div>
-                    <div class="update-item">
-                        <strong>Version 2.0.0</strong><br>
-                        • Major UI overhaul<br>
-                        • New reward system<br>
-                        • Enhanced social features
-                    </div>
-                </div>
-
-                <div class="withdraw-form" id="withdrawForm" style="display: none;">
-                    <h3>Withdraw Funds</h3>
-                    <div class="form-group">
-                        <label>Select Platform:</label>
-                        <select id="withdrawPlatform">
-                            <option value="binance">BINANCE</option>
-                            <option value="uid">UID</option>
-                            <option value="metamask">METAMASK</option>
-                            <option value="coinbase">COINBASE</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Account Number/Address:</label>
-                        <input type="text" id="withdrawAddress" placeholder="Enter your account details">
-                    </div>
-                    <div class="form-group">
-                        <label>Amount:</label>
-                        <input type="number" id="withdrawAmount" placeholder="Enter amount">
-                    </div>
-                    <div class="form-buttons">
-                        <button class="btn btn-secondary" onclick="cancelWithdraw()">Cancel</button>
-                        <button class="btn btn-primary" onclick="confirmWithdraw()">Confirm</button>
-                    </div>
+        <div id="orders-section" class="orders-section">
+            <div class="section-title">My Orders</div>
+            <div id="orders-list">
+                <div style="text-align: center; color: #666; padding: 40px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">📦</div>
+                    <div style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">No Orders Yet</div>
+                    <div>Purchase products to see your orders here</div>
                 </div>
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="nav-bar">
-            <button class="nav-btn active" onclick="showScreen('home')">🏠 Home</button>
-            <button class="nav-btn" onclick="showScreen('tasks')">✅ Tasks</button>
-            <button class="nav-btn" onclick="showScreen('invite')">👥 Invite</button>
-            <button class="nav-btn" onclick="showScreen('airdrop')">🎁 Airdrop</button>
+        <div class="main-buttons">
+            <button class="main-btn btn-products" onclick="showProducts()">
+                <div class="btn-icon">🏠</div>
+                <div>Products</div>
+            </button>
+            <button class="main-btn btn-account" onclick="showAccount()">
+                <div class="btn-icon">👤</div>
+                <div>Account</div>
+            </button>
+            <button class="main-btn btn-orders" onclick="showOrders()">
+                <div class="btn-icon">📦</div>
+                <div>My Orders</div>
+            </button>
         </div>
     </div>
 
     <script>
-        // Persistent Storage System using Cookie-like approach
-        const STORAGE_KEY = 'minigame_pro_data';
-        const DEVICE_ID_KEY = 'minigame_device_id';
+        let balance = 0;
+        let purchasedProducts = [];
+        let completedTasks = 0;
+        let telegramUser = null;
+        const tonAddress = "UQCC9TTHlJZLNH09baIi3UONk69UR-8YbedySf7F9sF-UJJl";
+        const BOT_TOKEN = "7878412616:AAEyMIU04OmW8mSmRbSrUjn2luATLaRubrw";
 
-        // Generate unique device ID if not exists
-        function getDeviceId() {
-            let deviceId = getCookie(DEVICE_ID_KEY);
-            if (!deviceId) {
-                deviceId = 'device_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-                setCookie(DEVICE_ID_KEY, deviceId, 365);
-            }
-            return deviceId;
-        }
-
-        // Cookie functions for persistent storage
-        function setCookie(name, value, days) {
-            const expires = new Date();
-            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-            document.cookie = name + '=' + encodeURIComponent(JSON.stringify(value)) + ';expires=' + expires.toUTCString() + ';path=/';
-        }
-
-        function getCookie(name) {
-            const nameEQ = name + '=';
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) {
-                    try {
-                        return JSON.parse(decodeURIComponent(c.substring(nameEQ.length, c.length)));
-                    } catch (e) {
-                        return null;
-                    }
-                }
-            }
-            return null;
-        }
-
-        // Game State with Persistent Storage
-        let board = ['', '', '', '', '', '', '', '', ''];
-        let currentPlayer = 'X';
-        let gameActive = true;
-        let playerXPoints = 0;
-        let playerOPoints = 0;
-        let totalPoints = 0;
-        let completedTasks = new Set();
-        let telegramConnected = false;
-        let telegramUserData = null;
-
-        // Load saved data
-        function loadGameData() {
-            const savedData = getCookie(STORAGE_KEY);
-            if (savedData) {
-                playerXPoints = savedData.playerXPoints || 0;
-                playerOPoints = savedData.playerOPoints || 0;
-                totalPoints = savedData.totalPoints || 0;
-                completedTasks = new Set(savedData.completedTasks || []);
-                telegramConnected = savedData.telegramConnected || false;
-                telegramUserData = savedData.telegramUserData || null;
-            }
-        }
-
-        // Save game data
-        function saveGameData() {
-            const dataToSave = {
-                playerXPoints,
-                playerOPoints,
-                totalPoints,
-                completedTasks: Array.from(completedTasks),
-                telegramConnected,
-                telegramUserData,
-                deviceId: getDeviceId(),
-                lastSaved: Date.now()
-            };
-            setCookie(STORAGE_KEY, dataToSave, 365);
-        }
-
-        // Update display
-        function updatePointsDisplay() {
-            document.getElementById('playerXPoints').textContent = playerXPoints;
-            document.getElementById('playerOPoints').textContent = playerOPoints;
-            document.getElementById('totalPoints').textContent = totalPoints;
-            saveGameData();
-        }
-
-        // Tic Tac Toe Game Logic
-        function makeMove(index) {
-            if (board[index] !== '' || !gameActive) return;
-
-            board[index] = currentPlayer;
-            const cell = document.getElementsByClassName('cell')[index];
-            cell.textContent = currentPlayer;
-            cell.classList.add(currentPlayer.toLowerCase());
-
-            if (checkWinner()) {
-                document.getElementById('gameStatus').textContent =🎉 Player ${currentPlayer} Wins! +1 Point Added!`;
-                if (currentPlayer === 'X') {
-                    playerXPoints += 1;
-                } else {
-                    playerOPoints += 1;
-                }
-                totalPoints = playerXPoints + playerOPoints;
-                updatePointsDisplay();
-                gameActive = false;
+        // Initialize Telegram Web App
+        function initTelegramApp() {
+            // Check if running in Telegram Web App
+            if (window.Telegram && window.Telegram.WebApp) {
+                const tg = window.Telegram.WebApp;
+                tg.ready();
                 
-                setTimeout(() => {
-                    resetGame();
-                }, 3000);
-                return;
+                // Get user data from Telegram
+                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                    telegramUser = tg.initDataUnsafe.user;
+                    updateUserInterface();
+                    showProducts();
+                } else {
+                    // Show login section if not in Telegram
+                    showLoginSection();
+                }
+                
+                // Set theme colors
+                tg.setHeaderColor('#667eea');
+                tg.setBackgroundColor('#ffffff');
+                
+            } else {
+                // Not in Telegram, show login
+                showLoginSection();
             }
-
-            if (board.every(cell => cell !== '')) {
-                document.getElementById('gameStatus').textContent = 'It\'s a Draw!';
-                gameActive = false;
-                return;
-            }
-
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            document.getElementById('gameStatus').textContent = Player ${currentPlayer}'s Turn;
         }
 
-        function checkWinner() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8],
-                [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                [0, 4, 8], [2, 4, 6]
-            ];
+        function showLoginSection() {
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('products-section').style.display = 'none';
+            document.getElementById('account-section').style.display = 'none';
+            document.getElementById('orders-section').style.display = 'none';
+            document.querySelector('.main-buttons').style.display = 'none';
+        }
 
-            return winPatterns.some(pattern => {
-                const [a, b, c] = pattern;
-                return board[a] && board[a] === board[b] && board[a] === board[c];
+        function initTelegramLogin() {
+            // For demo purposes, simulate login
+            telegramUser = {
+                id: 123456789,
+                first_name: "Demo",
+                last_name: "User",
+                username: "demouser",
+                photo_url: null
+            };
+            updateUserInterface();
+            showProducts();
+            document.getElementById('login-section').style.display = 'none';
+            document.querySelector('.main-buttons').style.display = 'flex';
+        }
+
+        function updateUserInterface() {
+            if (!telegramUser) return;
+
+            const fullName = ${telegramUser.first_name} ${telegramUser.last_name || ''}.trim();
+            const username = telegramUser.username ? @${telegramUser.username} : '';
+            const avatar = telegramUser.first_name ? telegramUser.first_name.charAt(0).toUpperCase() : '👤';
+
+            // Update header user info
+            document.getElementById('user-name').textContent = fullName;
+            document.getElementById('user-username').textContent = username;
+            document.getElementById('user-avatar-text').textContent = avatar;
+            document.getElementById('user-info').style.display = 'flex';
+
+            // Update profile section
+            document.getElementById('profile-name').textContent = fullName;
+            document.getElementById('profile-username').textContent = username;
+            document.getElementById('profile-avatar-text').textContent = avatar;
+        }
+
+        function showProducts() {
+            document.getElementById('products-section').style.display = 'block';
+            document.getElementById('account-section').style.display = 'none';
+            document.getElementById('orders-section').style.display = 'none';
+            
+            resetButtonStyles();
+            document.querySelector('.btn-products').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            document.querySelector('.btn-products').style.color = 'white';
+        }
+
+        function showAccount() {
+            document.getElementById('products-section').style.display = 'none';
+            document.getElementById('account-section').style.display = 'block';
+            document.getElementById('orders-section').style.display = 'none';
+            
+            resetButtonStyles();
+            document.querySelector('.btn-account').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            document.querySelector('.btn-account').style.color = 'white';
+            
+            updatePurchasedList();
+            updateStats();
+        }
+
+        function showOrders() {
+            document.getElementById('products-section').style.display = 'none';
+            document.getElementById('account-section').style.display = 'none';
+            document.getElementById('orders-section').style.display = 'block';
+            
+            resetButtonStyles();
+            document.querySelector('.btn-orders').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            document.querySelector('.btn-orders').style.color = 'white';
+            
+            updateOrdersList();
+        }
+
+        function resetButtonStyles() {
+            const buttons = ['.btn-products', '.btn-account', '.btn-orders'];
+            buttons.forEach(btn => {
+                document.querySelector(btn).style.background = '#e9ecef';
+                document.querySelector(btn).style.color = '#495057';
             });
         }
 
-        function resetGame() {
-            board = ['', '', '', '', '', '', '', '', ''];
-            currentPlayer = 'X';
-            gameActive = true;
-            document.getElementById('gameStatus').textContent = "Player X's Turn";
-            
-            const cells = document.getElementsByClassName('cell');
-            for (let cell of cells) {
-                cell.textContent = '';
-                cell.classList.remove('x', 'o');
-            }
+        function updateStats() {
+            document.getElementById('total-orders').textContent = purchasedProducts.length;
+            document.getElementById('tasks-completed').textContent = completedTasks;
         }
 
-        // Navigation
-        function showScreen(screenName) {
-            const screens = document.getElementsByClassName('screen');
-            for (let screen of screens) {
-                screen.classList.remove('active');
-            }
-
-            const navBtns = document.getElementsByClassName('nav-btn');
-            for (let btn of navBtns) {
-                btn.classList.remove('active');
-            }
-
-            document.getElementById(screenName + 'Screen').classList.add('active');
-            event.target.classList.add('active');
-
-            // Update telegram display when showing airdrop screen
-            if (screenName === 'airdrop') {
-                updateTelegramDisplay();
-            }
-        }
-
-        // Tasks
-        function completeTask(platform, points, url) {
-            // Check if task already completed
-            if (completedTasks.has(platform)) {
-                alert('This task has already been completed!');
+        function buyProduct(price) {
+            if (!telegramUser) {
+                alert('Please login with Telegram first!');
                 return;
             }
 
+            const tonUrl = https://app.tonkeeper.com/transfer/${tonAddress}?amount=${price * 1000000000}&text=Product Purchase - User: ${telegramUser.id};
+            
+            window.open(tonUrl, '_blank');
+            
+            setTimeout(() => {
+                const productData = {
+                    '0.05': { icon: '🎩', name: 'Premium Hat' },
+                    '0.08': { icon: '👑', name: 'Royal Crown' },
+                    '0.12': { icon: '💎', name: 'Diamond Package' },
+                    '0.03': { icon: '🔥', name: 'Fire Boost' },
+                    '0.15': { icon: '⚡', name: 'Lightning Pack' },
+                    '0.07': { icon: '🎯', name: 'Target Special' }
+                };
+                
+                const product = productData[price.toString()];
+                const orderData = {
+                    id: 'ORD' + Date.now().toString().slice(-6),
+                    icon: product.icon,
+                    name: product.name,
+                    price: price,
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString(),
+                    status: 'Completed',
+                    userId: telegramUser.id
+                };
+                
+                purchasedProducts.push(orderData);
+                
+                // Send purchase data to Telegram bot (optional)
+                sendPurchaseNotification(orderData);
+                
+                alert('Payment successful! Product added to your orders.');
+                updateOrdersList();
+                updatePurchasedList();
+                updateStats();
+            }, 3000);
+        }
+
+        function completeTask(button, points, url) {
+            if (button.classList.contains('completed')) return;
+            
+            if (!telegramUser) {
+                alert('Please login with Telegram first!');
+                return;
+            }
+            
             window.open(url, '_blank');
             
             setTimeout(() => {
-                const confirmComplete = confirm(Did you complete the ${platform} task? Click OK to earn ${points} points!);
-                if (confirmComplete) {
-                    totalPoints += points;
-                    playerXPoints += Math.floor(points / 2);
-                    playerOPoints += Math.ceil(points / 2);
-                    updatePointsDisplay();
-                    
-                    const button = event.target;
-                    button.textContent = 'Completed';
-                    button.disabled = true;
-                    button.style.background = '#27ae60';
-                    button.style.color = 'white';
-                    
-                    completedTasks.add(platform);
-                    saveGameData();
-                    
-                    alert🎉 Congratulations! You earned ${points} points!`);
-                }
+                button.textContent = 'Completed';
+                button.classList.add('completed');
+                balance += points;
+                completedTasks++;
+                document.getElementById('balance').textContent = balance;
+                
+                // Send task completion to bot (optional)
+                sendTaskCompletion(points);
+                
+                button.style.background = '#28a745';
+                setTimeout(() => {
+                    button.style.background = '#6c757d';
+                }, 1000);
+                
+                updateStats();
             }, 2000);
         }
 
-        // Telegram Connection Functions
-        function connectTelegram() {
-            // Simulate telegram connection dialog
-            const telegramUsername = prompt('Enter your Telegram username (without @):');
-            if (telegramUsername && telegramUsername.trim()) {
-                const firstName = prompt('Enter your first name:');
-                const lastName = prompt('Enter your last name (optional):') || '';
-                
-                telegramUserData = {
-                    username: telegramUsername.trim(),
-                    firstName: firstName ? firstName.trim() : 'User',
-                    lastName: lastName.trim(),
-                    fullName: ${firstName ? firstName.trim() : 'User'} ${lastName.trim()}.trim(),
-                    connectedAt: new Date().toLocaleString()
-                };
-                
-                telegramConnected = true;
-                saveGameData();
-                updateTelegramDisplay();
-                
-                alert('🎉 Telegram account connected successfully!');
-            }
-        }
-
-        function updateTelegramDisplay() {
-            const connectSection = document.getElementById('telegramConnect');
-            const userInfoSection = document.getElementById('userInfo');
+        function sendPurchaseNotification(orderData) {
+            if (!telegramUser) return;
             
-            if (telegramConnected && telegramUserData) {
-                connectSection.style.display = 'none';
-                userInfoSection.style.display = 'block';
-                
-                document.getElementById('userName').textContent = telegramUserData.fullName;
-                document.getElementById('userId').textContent = @${telegramUserData.username};
-            } else {
-                connectSection.style.display = 'block';
-                userInfoSection.style.display = 'none';
-            }
-        }
-
-        // Invite System
-        function shareInviteLink() {
-            const inviteCode = document.getElementById('userInviteCode').textContent;
-            const inviteLink = https://t.me/MiniGameBot?start=${inviteCode};
+            const message =🛒 New Purchase!\n\nUser: ${telegramUser.first_name}\nProduct: ${orderData.name}\nPrice: ${orderData.price} TON\nOrder ID: ${orderData.id}`;
             
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Join MiniGame Pro',
-                    text: 'Join me on MiniGame Pro and earn rewards!',
-                    url: inviteLink
-                });
-            } else {
-                navigator.clipboard.writeText(inviteLink).then(() => {
-                    alert('Invite link copied to clipboard!');
-                });
-            }
+            // Send notification to Telegram bot
+            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: telegramUser.id,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            }).catch(err => console.log('Notification send failed:', err));
         }
 
-        // Airdrop Functions
-        function showUpdates() {
-            document.getElementById('updatesSection').style.display = 'block';
-            document.getElementById('withdrawForm').style.display = 'none';
-        }
-
-        function showWithdraw() {
-            if (!telegramConnected) {
-                alert('Please connect your Telegram account first to access withdraw feature!');
-                return;
-            }
-            document.getElementById('withdrawForm').style.display = 'block';
-            document.getElementById('updatesSection').style.display = 'none';
-        }
-
-        function cancelWithdraw() {
-            document.getElementById('withdrawForm').style.display = 'none';
-            document.getElementById('withdrawAddress').value = '';
-            document.getElementById('withdrawAmount').value = '';
-        }
-
-        function confirmWithdraw() {
-            const platform = document.getElementById('withdrawPlatform').value;
-            const address = document.getElementById('withdrawAddress').value;
-            const amount = document.getElementById('withdrawAmount').value;
+        function sendTaskCompletion(points) {
+            if (!telegramUser) return;
             
-            if (!address || !amount) {
-                alert('Please fill in all fields');
+            const message = ✅ Task Completed!\n\nUser: ${telegramUser.first_name}\nReward: +${points} Points\nTotal Balance: ${balance} Points;
+            
+            // Send notification to Telegram bot
+            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: telegramUser.id,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            }).catch(err => console.log('Notification send failed:', err));
+        }
+
+        function updateOrdersList() {
+            const listContainer = document.getElementById('orders-list');
+            
+            if (purchasedProducts.length === 0) {
+                listContainer.innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        <div style="font-size: 48px; margin-bottom: 20px;">📦</div>
+                        <div style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">No Orders Yet</div>
+                        <div>Purchase products to see your orders here</div>
+                    </div>`;
                 return;
             }
             
-            if (amount > totalPoints) {
-                alert('Insufficient balance');
+            listContainer.innerHTML = purchasedProducts.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div style="display: flex; align-items: center; flex: 1;">
+                            <div class="order-icon">${order.icon}</div>
+                            <div>
+                                <div style="font-weight: bold; font-size: 16px;">${order.name}</div>
+                                <div style="color: #666; font-size: 14px;">Order ID: ${order.id}</div>
+                            </div>
+                        </div>
+                        <div class="order-status">Completed</div>
+                    </div>
+                    <div class="order-details">
+                        <div><strong>Price:</strong> ${order.price} TON</div>
+                        <div><strong>Date:</strong> ${order.date} at ${order.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updatePurchasedList() {
+            const listContainer = document.getElementById('purchased-list');
+            
+            if (purchasedProducts.length === 0) {
+                listContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No products purchased yet</div>';
                 return;
             }
             
-            const confirmMsg = Confirm withdrawal of ${amount} points to ${platform.toUpperCase()}?\nAddress: ${address}\nTelegram: @${telegramUserData.username};
-            if (confirm(confirmMsg)) {
-                alert('Withdrawal request submitted successfully! Processing time: 24-48 hours');
-                cancelWithdraw();
-            }
+            listContainer.innerHTML = purchasedProducts.map(product => `
+                <div class="purchased-item">
+                    <div class="purchased-icon">${product.icon}</div>
+                    <div>
+                        <div style="font-weight: bold;">${product.name}</div>
+                        <div style="font-size: 12px; color: #666;">${product.date}</div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // Initialize completed tasks display
-        function updateTasksDisplay() {
-            const taskButtons = document.querySelectorAll('.task-btn');
-            const platforms = ['youtube', 'telegram', 'twitter', 'instagram', 'facebook'];
-            
-            taskButtons.forEach((button, index) => {
-                if (completedTasks.has(platforms[index])) {
-                    button.textContent = 'Completed';
-                    button.disabled = true;
-                    button.style.background = '#27ae60';
-                    button.style.color = 'white';
-                }
-            });
-        }
-
-        // Initialize the app
-        function initializeApp() {
-            // Get device ID for security
-            const deviceId = getDeviceId();
-            console.log('Device ID:', deviceId);
-            
-            // Load saved game data
-            loadGameData();
-            
-            // Update displays
-            updatePointsDisplay();
-            updateTasksDisplay();
-            updateTelegramDisplay();
-            
-            // Generate random invite code if not exists
-            if (!document.getElementById('userInviteCode').textContent || document.getElementById('userInviteCode').textContent === 'ABC123') {
-                document.getElementById('userInviteCode').textContent = Math.random().toString(36).substring(2, 😎.toUpperCase();
-            }
-            
-            console.log('App initialized with persistent storage');
-        }
-
-        // Prevent data loss on page refresh
-        window.addEventListener('beforeunload', function() {
-            saveGameData();
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initTelegramApp();
         });
 
-        // Auto-save every 30 seconds
-        setInterval(() => {
-            saveGameData();
-        }, 30000);
-
-        // Call initialization when page loads
-        document.addEventListener('DOMContentLoaded', initializeApp);
-        
-        // Fallback initialization
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeApp);
-        } else {
-            initializeApp();
+        // Handle Telegram Web App events
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            
+            // Handle main button clicks
+            tg.onEvent('mainButtonClicked', function() {
+                // Handle main button actions
+            });
+            
+            // Handle back button
+            tg.onEvent('backButtonClicked', function() {
+                showProducts();
+            });
         }
     </script>
 </body>
