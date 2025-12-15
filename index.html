@@ -3249,15 +3249,23 @@
                 const studentDoc = await getDoc(doc(window.db, 'students', studentId));
                 const student = studentDoc.data();
                 
-                // Get attendance
+                // Get attendance with dates
                 const attendanceQuery = query(collection(window.db, 'attendance'), where('studentId', '==', studentId));
                 const attendanceSnapshot = await getDocs(attendanceQuery);
-                let totalDays = 0, presentDays = 0;
+                let presentDates = [];
+                let absentDates = [];
                 attendanceSnapshot.forEach(doc => {
-                    totalDays++;
-                    if (doc.data().present) presentDays++;
+                    const att = doc.data();
+                    if (att.present) {
+                        presentDates.push(att.date);
+                    } else {
+                        absentDates.push(att.date);
+                    }
                 });
-                const attendancePercent = totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(1) : 0;
+                presentDates.sort().reverse();
+                absentDates.sort().reverse();
+                const totalDays = presentDates.length + absentDates.length;
+                const attendancePercent = totalDays > 0 ? ((presentDates.length / totalDays) * 100).toFixed(1) : 0;
                 
                 // Get test results
                 const testsQuery = query(collection(window.db, 'tests'), where('studentId', '==', studentId));
@@ -3273,15 +3281,18 @@
                 tests.sort((a, b) => new Date(b.date) - new Date(a.date));
                 const avgPercentage = totalMarks > 0 ? ((obtainedMarks / totalMarks) * 100).toFixed(1) : 0;
                 
-                // Get payments
+                // Get payments with dates
                 const paymentsQuery = query(collection(window.db, 'payments'), where('studentId', '==', studentId));
                 const paymentsSnapshot = await getDocs(paymentsQuery);
-                let paidCount = 0, unpaidCount = 0;
-                const payments = [];
+                let paidPayments = [];
+                let unpaidPayments = [];
                 paymentsSnapshot.forEach(doc => {
                     const payment = doc.data();
-                    payments.push(payment);
-                    if (payment.isPaid) paidCount++; else unpaidCount++;
+                    if (payment.isPaid) {
+                        paidPayments.push(payment);
+                    } else {
+                        unpaidPayments.push(payment);
+                    }
                 });
 
                 // Generate PDF report
@@ -3315,43 +3326,80 @@
                 ctx.fillText(student.name, canvas.width / 2, y);
                 y += 60;
                 ctx.font = '45px Arial';
-                ctx.fillText(`রোল: ${student.roll} | ক্লাস ${student.class}`, canvas.width / 2, y);
-                y += 80;
+                ctx.fillText(`রোল: ${student.roll} | ক্লাস ${student.class} | ফোন: ${student.phone}`, canvas.width / 2, y);
+                y += 100;
 
-                // Stats boxes
+                // Stats section
                 ctx.textAlign = 'left';
-                const boxY = y;
-                const boxWidth = 700;
-                const boxHeight = 180;
-                const gap = 40;
-
-                // Attendance box
-                ctx.fillStyle = '#f0fdf4';
-                ctx.fillRect(140, boxY, boxWidth, boxHeight);
-                ctx.fillStyle = '#10b981';
-                ctx.font = 'bold 40px Arial';
-                ctx.fillText('উপস্থিতির হার', 180, boxY + 50);
-                ctx.font = 'bold 70px Arial';
-                ctx.fillText(`${attendancePercent}%`, 180, boxY + 130);
-
-                // Performance box
-                ctx.fillStyle = '#eff6ff';
-                ctx.fillRect(140 + boxWidth + gap, boxY, boxWidth, boxHeight);
-                ctx.fillStyle = '#3b82f6';
-                ctx.font = 'bold 40px Arial';
-                ctx.fillText('গড় পারফরম্যান্স', 180 + boxWidth + gap, boxY + 50);
-                ctx.font = 'bold 70px Arial';
-                ctx.fillText(`${avgPercentage}%`, 180 + boxWidth + gap, boxY + 130);
-
-                y = boxY + boxHeight + 60;
-
-                // Test results section
+                
+                // Attendance section with dates
                 ctx.fillStyle = '#1e293b';
                 ctx.font = 'bold 50px Arial';
-                ctx.fillText('সাম্প্রতিক পরীক্ষার ফলাফল', 140, y);
-                y += 60;
+                ctx.fillText('📊 উপস্থিতি বিবরণ', 140, y);
+                y += 70;
 
-                tests.slice(0, 10).forEach(test => {
+                // Attendance percentage box
+                ctx.fillStyle = '#f0fdf4';
+                ctx.fillRect(140, y - 40, 1000, 100);
+                ctx.fillStyle = '#10b981';
+                ctx.font = 'bold 40px Arial';
+                ctx.fillText(`মোট উপস্থিতি: ${attendancePercent}% (${presentDates.length}/${totalDays} দিন)`, 180, y + 20);
+                y += 100;
+
+                // Present dates
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 40px Arial';
+                ctx.fillText('✅ উপস্থিত ছিল:', 140, y);
+                y += 50;
+                
+                ctx.font = '32px Arial';
+                ctx.fillStyle = '#059669';
+                let col = 0;
+                const colWidth = 350;
+                const maxCols = 6;
+                presentDates.slice(0, 30).forEach((date, idx) => {
+                    const formattedDate = new Date(date).toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+                    ctx.fillText(`• ${formattedDate}`, 140 + (col * colWidth), y);
+                    col++;
+                    if (col >= maxCols) {
+                        col = 0;
+                        y += 45;
+                    }
+                });
+                if (col !== 0) y += 45;
+                y += 30;
+
+                // Absent dates
+                if (absentDates.length > 0) {
+                    ctx.font = 'bold 40px Arial';
+                    ctx.fillStyle = '#1e293b';
+                    ctx.fillText('❌ অনুপস্থিত ছিল:', 140, y);
+                    y += 50;
+                    
+                    ctx.font = '32px Arial';
+                    ctx.fillStyle = '#dc2626';
+                    col = 0;
+                    absentDates.slice(0, 30).forEach((date, idx) => {
+                        const formattedDate = new Date(date).toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+                        ctx.fillText(`• ${formattedDate}`, 140 + (col * colWidth), y);
+                        col++;
+                        if (col >= maxCols) {
+                            col = 0;
+                            y += 45;
+                        }
+                    });
+                    if (col !== 0) y += 45;
+                    y += 30;
+                }
+
+                // Test results section
+                y += 20;
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 50px Arial';
+                ctx.fillText(`📝 পরীক্ষার ফলাফল (গড়: ${avgPercentage}%)`, 140, y);
+                y += 70;
+
+                tests.slice(0, 8).forEach(test => {
                     const percentage = ((parseInt(test.marks) / parseInt(test.totalMarks)) * 100).toFixed(0);
                     const gradeColor = percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444';
                     
@@ -3360,16 +3408,73 @@
                     
                     ctx.fillStyle = '#1e293b';
                     ctx.font = '35px Arial';
+                    const formattedDate = new Date(test.date).toLocaleDateString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric' });
                     ctx.fillText(`${test.subject}`, 180, y);
-                    ctx.fillText(new Date(test.date).toLocaleDateString('bn-BD'), 750, y);
+                    ctx.fillText(formattedDate, 750, y);
                     
                     ctx.fillStyle = gradeColor;
                     ctx.font = 'bold 40px Arial';
                     ctx.fillText(`${test.marks}/${test.totalMarks} (${percentage}%)`, 1500, y);
                     
                     y += 70;
-                    if (y > 3200) return;
                 });
+
+                // Payment section with dates
+                y += 30;
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 50px Arial';
+                ctx.fillText('💰 পেমেন্ট বিবরণ', 140, y);
+                y += 70;
+
+                // Paid payments
+                if (paidPayments.length > 0) {
+                    ctx.font = 'bold 40px Arial';
+                    ctx.fillText('✅ পরিশোধিত পেমেন্ট:', 140, y);
+                    y += 50;
+                    
+                    ctx.font = '35px Arial';
+                    paidPayments.slice(0, 10).forEach(payment => {
+                        ctx.fillStyle = '#f8fafc';
+                        ctx.fillRect(140, y - 35, canvas.width - 280, 70);
+                        
+                        ctx.fillStyle = '#1e293b';
+                        ctx.fillText(`${payment.month} ${payment.year}`, 180, y);
+                        ctx.fillText(`৳${payment.amount}`, 750, y);
+                        
+                        ctx.fillStyle = '#10b981';
+                        ctx.font = 'bold 35px Arial';
+                        ctx.fillText(`পরিশোধিত - ${payment.paidDate || 'তারিখ নেই'}`, 1200, y);
+                        ctx.font = '35px Arial';
+                        
+                        y += 70;
+                    });
+                }
+
+                // Unpaid payments
+                if (unpaidPayments.length > 0) {
+                    y += 20;
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = 'bold 40px Arial';
+                    ctx.fillText('❌ বকেয়া পেমেন্ট:', 140, y);
+                    y += 50;
+                    
+                    ctx.font = '35px Arial';
+                    unpaidPayments.slice(0, 10).forEach(payment => {
+                        ctx.fillStyle = '#fef2f2';
+                        ctx.fillRect(140, y - 35, canvas.width - 280, 70);
+                        
+                        ctx.fillStyle = '#1e293b';
+                        ctx.fillText(`${payment.month} ${payment.year}`, 180, y);
+                        ctx.fillText(`৳${payment.amount}`, 750, y);
+                        
+                        ctx.fillStyle = '#dc2626';
+                        ctx.font = 'bold 35px Arial';
+                        ctx.fillText('বকেয়া', 1200, y);
+                        ctx.font = '35px Arial';
+                        
+                        y += 70;
+                    });
+                }
 
                 // Footer
                 ctx.fillStyle = '#64748b';
@@ -3382,7 +3487,7 @@
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `রিপোর্ট-${student.name}-${student.roll}.png`;
+                    link.download = `রিপোর্ট-${student.name}-${student.roll}-বিস্তারিত.png`;
                     link.click();
                     URL.revokeObjectURL(url);
                     alert('রিপোর্ট ডাউনলোড সম্পন্ন! ✅');
