@@ -2364,7 +2364,11 @@
             });
         }
 
-        // Show detailed student information
+        // Show detailed student information in modal
+        async function showStudentDetailsModal(studentId) {
+            await showStudentDetails(studentId);
+        }
+
         async function showStudentDetails(studentId) {
             try {
                 const { collection, doc, getDoc, getDocs, query, where } = window.firestoreFunctions;
@@ -2550,6 +2554,15 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+                        <button class="btn btn-primary" onclick="downloadStudentReport('${studentId}')" style="padding: 15px 40px; font-size: 1.1em;">
+                            📥 সম্পূর্ণ রিপোর্ট ডাউনলোড করুন
+                        </button>
+                        <button class="btn" onclick="closeStudentDetails()" style="padding: 15px 40px; font-size: 1.1em; background: var(--text-light); color: white;">
+                            বন্ধ করুন
+                        </button>
                     </div>
                 `;
                 
@@ -3180,7 +3193,7 @@
             }
         }
 
-        // Download student full report from public view
+        // Display public students grid
         function displayPublicStudentsGrid(students, today, attendanceSnapshot) {
             const grid = document.getElementById('publicStudentsGrid');
             grid.innerHTML = '';
@@ -3207,6 +3220,7 @@
 
                 const card = document.createElement('div');
                 card.className = 'student-card';
+                card.onclick = () => showStudentDetailsModal(student.id);
                 card.innerHTML = `
                     <div class="student-card-header">
                         <div class="student-avatar">${initial}</div>
@@ -3218,14 +3232,6 @@
                     <div class="student-card-body">
                         <span class="student-class">ক্লাস ${student.class}</span>
                         <span class="student-status ${statusClass}">${statusIcon} ${statusText}</span>
-                    </div>
-                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.1); display: flex; gap: 10px;">
-                        <button onclick="showStudentDetails('${student.id}')" style="flex: 1; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            👁️ বিস্তারিত দেখুন
-                        </button>
-                        <button onclick="downloadStudentReport('${student.id}')" style="flex: 1; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            📥 রিপোর্ট ডাউনলোড
-                        </button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -3636,3 +3642,28 @@
     </script>
 </body>
 </html>
+<script>
+// Edit student functionality
+async function editStudent(studentId) {
+    try {
+        const { doc, getDoc } = window.firestoreFunctions;
+        const studentDoc = await getDoc(doc(window.db, 'students', studentId));
+        const student = studentDoc.data();
+        
+        document.getElementById('studentRoll').value = student.roll;
+        document.getElementById('studentName').value = student.name;
+        document.getElementById('studentClass').value = student.class;
+        document.getElementById('studentPhone').value = student.phone;
+        document.getElementById('monthlyFee').value = student.monthlyFee;
+        document.getElementById('paymentDate').value = student.paymentDate;
+        document.getElementById('previousResult').value = student.previousResult;
+        
+        window.editingStudentId = studentId;
+        document.getElementById('addStudentModal').classList.add('active');
+        document.querySelector('#addStudentModal h2').textContent = 'শিক্ষার্থীর তথ্য এডিট করুন';
+    } catch (error) {
+        console.error('Error:', error);
+        alert('তথ্য লোড করতে সমস্যা হয়েছে!');
+    }
+}
+</script>
