@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAM - Premium Digital Products</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>কোচিং ম্যানেজমেন্ট সিস্টেম</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,239 +28,743 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Hind Siliguri', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 0;
-            max-width: 400px;
-            margin: 0 auto;
-            position: relative;
+            color: var(--text-dark);
         }
 
         .container {
-            background: white;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            padding-bottom: 80px;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 5px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .user-info {
-            background: rgba(255,255,255,0.1);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 14px;
+        /* Login Page Styles */
+        .login-container {
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            font-family: 'Baloo Da 2', cursive;
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: var(--text-light);
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Baloo Da 2', cursive;
+            color: var(--primary);
+            font-size: 2em;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 12px 25px;
+            border: none;
+            background: var(--bg-light);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: var(--border);
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .search-bar {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input,
+        .search-bar select {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+        }
+
+        .stat-card.blue { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .stat-card.green { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .stat-card.orange { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .stat-card.red { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+
+        .stat-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: 800;
+            font-family: 'Baloo Da 2', cursive;
+            position: relative;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--bg-light);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover {
+            background: var(--bg-light);
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge.present {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge.absent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge.paid {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge.unpaid {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .action-btn.edit {
+            background: var(--warning);
+            color: white;
+        }
+
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn.view {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
         }
 
-        .main-buttons {
+        .modal.active {
             display: flex;
-            padding: 15px;
-            gap: 10px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #eee;
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 400px;
-            z-index: 100;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
 
-        .main-btn {
-            flex: 1;
-            padding: 12px 8px;
-            border: none;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-icon {
-            font-size: 18px;
-        }
-
-        .btn-products {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-account, .btn-orders {
-            background: #e9ecef;
-            color: #495057;
-        }
-
-        .main-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .content {
-            padding: 20px 15px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .product-card {
+        .modal-content {
             background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-family: 'Baloo Da 2', cursive;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            font-size: 2em;
+            cursor: pointer;
+            color: var(--text-light);
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .class-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-light);
             border-radius: 15px;
+        }
+
+        .class-section h3 {
+            font-family: 'Baloo Da 2', cursive;
+            color: var(--primary);
+            margin-bottom: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .class-section h3::before {
+            content: '▼';
+            transition: transform 0.3s;
+        }
+
+        .class-section.collapsed h3::before {
+            transform: rotate(-90deg);
+        }
+
+        .class-content {
+            display: block;
+        }
+
+        .class-section.collapsed .class-content {
+            display: none;
+        }
+
+        .subject-card {
+            background: white;
             padding: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .subject-card:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .test-entry {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        .test-entry input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 25px 20px;
+                max-width: 100%;
+            }
+
+            .login-header h1 {
+                font-size: 1.8em;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                padding: 20px 15px;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.5em;
+            }
+
+            .nav-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 10px;
+                gap: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-tab {
+                padding: 10px 15px;
+                font-size: 0.9em;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-card .number {
+                font-size: 2em;
+            }
+
+            .modal-content {
+                padding: 20px 15px;
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-bar input,
+            .search-bar select {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .table-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                font-size: 0.85em;
+                min-width: 600px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+                white-space: nowrap;
+            }
+
+            .action-btn {
+                padding: 6px 10px;
+                font-size: 0.85em;
+                margin: 2px;
+                display: inline-block;
+            }
+
+            .badge {
+                font-size: 0.75em;
+                padding: 4px 8px;
+            }
+
+            .content-section {
+                padding: 20px 15px;
+            }
+
+            .public-header h1 {
+                font-size: 1.5em;
+            }
+
+            .public-header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .class-section {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 15px 10px;
+            }
+        }
+
+        /* Additional mobile optimizations */
+        @media (max-width: 480px) {
+            .login-header h1 {
+                font-size: 1.5em;
+            }
+
+            .dashboard-header h1 {
+                font-size: 1.3em;
+            }
+
+            .stat-card h3 {
+                font-size: 0.95em;
+            }
+
+            .stat-card .number {
+                font-size: 1.8em;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+
+            .nav-tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+        }
+
+        /* Payment edit modal styles */
+        .payment-edit-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .payment-edit-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        /* Modern Public View Styles */
+        .header-left h1 {
+            font-family: 'Baloo Da 2', cursive;
+            color: var(--primary);
+            font-size: 2.2em;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .public-search-section,
+        .public-tests-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            font-family: 'Baloo Da 2', cursive;
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1em;
+        }
+
+        /* Students Grid */
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .student-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #667eea;
-        }
-
-        .product-icon {
-            font-size: 40px;
-            text-align: center;
-            margin-bottom: 10px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .product-price {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            text-align: center;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-
-        .product-stock {
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .available { color: #28a745; }
-        .limited { color: #ffc107; }
-        .soldout { color: #dc3545; }
-
-        .buy-btn {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-        }
-
-        .buy-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        .account-section {
-            display: none;
-            padding: 20px;
-        }
-
-        .orders-section {
-            display: none;
-            padding: 20px;
-        }
-
-        .balance-card {
+        .student-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: width 0.3s ease;
         }
 
-        .balance-amount {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 5px;
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
         }
 
-        .profile-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+        .student-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
         }
 
-        .profile-header {
+        .student-card-header {
             display: flex;
             align-items: center;
+            gap: 15px;
             margin-bottom: 15px;
         }
 
-        .profile-avatar {
+        .student-avatar {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -253,715 +772,2866 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
             color: white;
-            margin-right: 15px;
+            font-size: 1.8em;
+            font-weight: bold;
+            font-family: 'Baloo Da 2', cursive;
         }
 
-        .profile-info h3 {
+        .student-info h3 {
             margin: 0;
-            font-size: 18px;
-            color: #333;
+            color: var(--text-dark);
+            font-size: 1.2em;
+            font-weight: 700;
         }
 
-        .profile-info p {
+        .student-info p {
             margin: 5px 0 0 0;
-            color: #666;
-            font-size: 14px;
+            color: var(--text-light);
+            font-size: 0.9em;
         }
 
-        .profile-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .tasks-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .task-item {
+        .student-card-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
         }
 
-        .task-item:last-child {
-            border-bottom: none;
-        }
-
-        .task-info {
-            flex: 1;
-        }
-
-        .task-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .task-reward {
-            color: #28a745;
-            font-size: 14px;
-        }
-
-        .task-btn {
-            padding: 8px 15px;
-            background: #28a745;
+        .student-class {
+            background: var(--primary);
             color: white;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 12px;
-            min-width: 60px;
-        }
-
-        .task-btn.completed {
-            background: #6c757d;
-            cursor: not-allowed;
-        }
-
-        .purchased-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .purchased-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .purchased-item:last-child {
-            border-bottom: none;
-        }
-
-        .purchased-icon {
-            font-size: 24px;
-            margin-right: 15px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .telegram-link {
-            background: #0088cc;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 20px 0;
-            text-decoration: none;
-            display: block;
-            font-weight: bold;
-        }
-
-        .progress-bar {
-            background: #e9ecef;
-            height: 4px;
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #28a745, #20c997);
-            height: 100%;
-            transition: width 0.3s ease;
-        }
-
-        .order-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #28a745;
-        }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .order-icon {
-            font-size: 24px;
-            margin-right: 15px;
-        }
-
-        .order-status {
-            background: #28a745;
-            color: white;
-            padding: 4px 12px;
+            padding: 5px 15px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 0.9em;
+            font-weight: 600;
         }
 
-        .order-details {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
+        .student-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9em;
+            font-weight: 600;
         }
 
-        .login-section {
-            text-align: center;
-            padding: 40px 20px;
+        .student-status.present {
+            color: var(--secondary);
         }
 
-        .login-btn {
-            background: #0088cc;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
+        .student-status.absent {
+            color: var(--danger);
+        }
+
+        /* Tests Grid */
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .test-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid var(--border);
             transition: all 0.3s ease;
         }
 
-        .login-btn:hover {
-            background: #0077bb;
-            transform: translateY(-2px);
+        .test-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: translateY(-3px);
+        }
+
+        .test-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .test-subject {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .test-date {
+            font-size: 0.85em;
+            color: var(--text-light);
+            background: var(--bg-light);
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+
+        .test-card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-student-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .test-marks {
+            font-size: 1.5em;
+            font-weight: 800;
+            color: var(--secondary);
+            font-family: 'Baloo Da 2', cursive;
+        }
+
+        .test-class-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Student Details Modal Styles */
+        .details-section {
+            margin-bottom: 30px;
+        }
+
+        .details-section h3 {
+            font-family: 'Baloo Da 2', cursive;
+            color: var(--primary);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .timeline-date {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timeline-subject {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .timeline-marks {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .attendance-checkbox {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>ZAM</h1>
-            <p>Premium Digital Products</p>
-            <div id="user-info" class="user-info" style="display: none;">
-                <div class="user-avatar">
-                    <span id="user-avatar-text">👤</span>
-                </div>
-                <div>
-                    <div id="user-name">Loading...</div>
-                    <div id="user-username" style="font-size: 12px; opacity: 0.8;"></div>
-                </div>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 500px;">
+            <div style="font-size: 3em; margin-bottom: 20px;">⏳</div>
+            <h2 style="color: var(--primary); margin-bottom: 15px;">ডেমো ডেটা লোড হচ্ছে...</h2>
+            <p style="color: var(--text-light); margin-bottom: 10px;" id="loadingMessage">Firebase-এ ডেটা যোগ করা হচ্ছে</p>
+            <div style="background: var(--bg-light); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 20px;">
+                <div id="loadingProgress" style="background: var(--primary); height: 100%; width: 0%; transition: width 0.3s;"></div>
             </div>
-        </div>
-
-        <div id="login-section" class="login-section" style="display: none;">
-            <div style="font-size: 48px; margin-bottom: 20px;">🔐</div>
-            <h2 style="margin-bottom: 15px;">Welcome to ZAM</h2>
-            <p style="margin-bottom: 30px; color: #666;">Please connect your Telegram account to continue</p>
-            <button class="login-btn" onclick="initTelegramLogin()">
-                Connect with Telegram
-            </button>
-        </div>
-
-        <div id="products-section" class="content">
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-icon">🎩</div>
-                    <div class="product-price">0.05 TON</div>
-                    <div class="product-stock available">Available: 847/1000</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 84.7%"></div>
-                    </div>
-                    <button class="buy-btn" onclick="buyProduct(0.05)">Buy with TON</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-icon">👑</div>
-                    <div class="product-price">0.08 TON</div>
-                    <div class="product-stock limited">Available: 234/500</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 46.8%"></div>
-                    </div>
-                    <button class="buy-btn" onclick="buyProduct(0.08)">Buy with TON</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-icon">💎</div>
-                    <div class="product-price">0.12 TON</div>
-                    <div class="product-stock available">Available: 1876/2000</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 93.8%"></div>
-                    </div>
-                    <button class="buy-btn" onclick="buyProduct(0.12)">Buy with TON</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-icon">🔥</div>
-                    <div class="product-price">0.03 TON</div>
-                    <div class="product-stock available">Available: 3456/5000</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 69.1%"></div>
-                    </div>
-                    <button class="buy-btn" onclick="buyProduct(0.03)">Buy with TON</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-icon">⚡</div>
-                    <div class="product-price">0.15 TON</div>
-                    <div class="product-stock limited">Available: 89/300</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 29.7%"></div>
-                    </div>
-                    <button class="buy-btn" onclick="buyProduct(0.15)">Buy with TON</button>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-icon">🎯</div>
-                    <div class="product-price">0.07 TON</div>
-                    <div class="product-stock available">Available: 1234/1500</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 82.3%"></div>
-                    </div>
-                    <button class="buy-btn" onclick="buyProduct(0.07)">Buy with TON</button>
-                </div>
-            </div>
-
-            <a href="https://t.me/mtvip999" class="telegram-link" target="_blank">
-                📢 Join Our Telegram Channel
-            </a>
-        </div>
-
-        <div id="account-section" class="account-section">
-            <div class="balance-card">
-                <div class="balance-amount" id="balance">0</div>
-                <div>Points Balance</div>
-            </div>
-
-            <div class="profile-section">
-                <div class="section-title">Profile Information</div>
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <span id="profile-avatar-text">👤</span>
-                    </div>
-                    <div class="profile-info">
-                        <h3 id="profile-name">Loading...</h3>
-                        <p id="profile-username">@username</p>
-                    </div>
-                </div>
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <div class="stat-value" id="total-orders">0</div>
-                        <div class="stat-label">Total Orders</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="tasks-completed">0</div>
-                        <div class="stat-label">Tasks Done</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="tasks-section">
-                <div class="section-title">Available Tasks</div>
-                
-                <div class="task-item">
-                    <div class="task-info">
-                        <div class="task-title">Subscribe YouTube Channel</div>
-                        <div class="task-reward">+50 Points</div>
-                    </div>
-                    <button class="task-btn" onclick="completeTask(this, 50, 'https://youtube.com')">Open</button>
-                </div>
-
-                <div class="task-item">
-                    <div class="task-info">
-                        <div class="task-title">Follow Telegram Channel</div>
-                        <div class="task-reward">+30 Points</div>
-                    </div>
-                    <button class="task-btn" onclick="completeTask(this, 30, 'https://t.me/mtvip999')">Open</button>
-                </div>
-
-                <div class="task-item">
-                    <div class="task-info">
-                        <div class="task-title">Join Telegram Group</div>
-                        <div class="task-reward">+25 Points</div>
-                    </div>
-                    <button class="task-btn" onclick="completeTask(this, 25, 'https://t.me/mtvip999')">Open</button>
-                </div>
-
-                <div class="task-item">
-                    <div class="task-info">
-                        <div class="task-title">Open Telegram Bot</div>
-                        <div class="task-reward">+15 Points</div>
-                    </div>
-                    <button class="task-btn" onclick="completeTask(this, 15, 'https://t.me/mtvip999')">Open</button>
-                </div>
-            </div>
-
-            <div class="purchased-section">
-                <div class="section-title">Purchased Products</div>
-                <div id="purchased-list">
-                    <div style="text-align: center; color: #666; padding: 20px;">
-                        No products purchased yet
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="orders-section" class="orders-section">
-            <div class="section-title">My Orders</div>
-            <div id="orders-list">
-                <div style="text-align: center; color: #666; padding: 40px;">
-                    <div style="font-size: 48px; margin-bottom: 20px;">📦</div>
-                    <div style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">No Orders Yet</div>
-                    <div>Purchase products to see your orders here</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="main-buttons">
-            <button class="main-btn btn-products" onclick="showProducts()">
-                <div class="btn-icon">🏠</div>
-                <div>Products</div>
-            </button>
-            <button class="main-btn btn-account" onclick="showAccount()">
-                <div class="btn-icon">👤</div>
-                <div>Account</div>
-            </button>
-            <button class="main-btn btn-orders" onclick="showOrders()">
-                <div class="btn-icon">📦</div>
-                <div>My Orders</div>
-            </button>
+            <p style="margin-top: 10px; color: var(--text-light); font-size: 0.9em;" id="loadingStats"></p>
         </div>
     </div>
 
-    <script>
-        let balance = 0;
-        let purchasedProducts = [];
-        let completedTasks = 0;
-        let telegramUser = null;
-        const tonAddress = "UQCC9TTHlJZLNH09baIi3UONk69UR-8YbedySf7F9sF-UJJl";
-        const BOT_TOKEN = "7878412616:AAEyMIU04OmW8mSmRbSrUjn2luATLaRubrw";
+    <!-- Public View -->
+    <div id="publicView">
+        <div class="public-header">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <div class="header-left">
+                    <h1>🎓 স্মার্ট কোচিং সেন্টার</h1>
+                    <p style="color: var(--text-light); margin-top: 5px;">শিক্ষায় উৎকর্ষতা, সাফল্যের পথে এগিয়ে</p>
+                </div>
+                <button class="btn btn-primary" onclick="showAdminLogin()" style="width: auto; padding: 12px 30px;">
+                    🔐 Admin Login
+                </button>
+            </div>
+        </div>
 
-        // Initialize Telegram Web App
-        function initTelegramApp() {
-            // Check if running in Telegram Web App
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tg = window.Telegram.WebApp;
-                tg.ready();
-                
-                // Get user data from Telegram
-                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                    telegramUser = tg.initDataUnsafe.user;
-                    updateUserInterface();
-                    showProducts();
-                } else {
-                    // Show login section if not in Telegram
-                    showLoginSection();
-                }
-                
-                // Set theme colors
-                tg.setHeaderColor('#667eea');
-                tg.setBackgroundColor('#ffffff');
-                
-            } else {
-                // Not in Telegram, show login
-                showLoginSection();
-            }
-        }
-
-        function showLoginSection() {
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('products-section').style.display = 'none';
-            document.getElementById('account-section').style.display = 'none';
-            document.getElementById('orders-section').style.display = 'none';
-            document.querySelector('.main-buttons').style.display = 'none';
-        }
-
-        function initTelegramLogin() {
-            // For demo purposes, simulate login
-            telegramUser = {
-                id: 123456789,
-                first_name: "Demo",
-                last_name: "User",
-                username: "demouser",
-                photo_url: null
-            };
-            updateUserInterface();
-            showProducts();
-            document.getElementById('login-section').style.display = 'none';
-            document.querySelector('.main-buttons').style.display = 'flex';
-        }
-
-        function updateUserInterface() {
-            if (!telegramUser) return;
-
-            const fullName = ${telegramUser.first_name} ${telegramUser.last_name || ''}.trim();
-            const username = telegramUser.username ? @${telegramUser.username} : '';
-            const avatar = telegramUser.first_name ? telegramUser.first_name.charAt(0).toUpperCase() : '👤';
-
-            // Update header user info
-            document.getElementById('user-name').textContent = fullName;
-            document.getElementById('user-username').textContent = username;
-            document.getElementById('user-avatar-text').textContent = avatar;
-            document.getElementById('user-info').style.display = 'flex';
-
-            // Update profile section
-            document.getElementById('profile-name').textContent = fullName;
-            document.getElementById('profile-username').textContent = username;
-            document.getElementById('profile-avatar-text').textContent = avatar;
-        }
-
-        function showProducts() {
-            document.getElementById('products-section').style.display = 'block';
-            document.getElementById('account-section').style.display = 'none';
-            document.getElementById('orders-section').style.display = 'none';
-            
-            resetButtonStyles();
-            document.querySelector('.btn-products').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            document.querySelector('.btn-products').style.color = 'white';
-        }
-
-        function showAccount() {
-            document.getElementById('products-section').style.display = 'none';
-            document.getElementById('account-section').style.display = 'block';
-            document.getElementById('orders-section').style.display = 'none';
-            
-            resetButtonStyles();
-            document.querySelector('.btn-account').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            document.querySelector('.btn-account').style.color = 'white';
-            
-            updatePurchasedList();
-            updateStats();
-        }
-
-        function showOrders() {
-            document.getElementById('products-section').style.display = 'none';
-            document.getElementById('account-section').style.display = 'none';
-            document.getElementById('orders-section').style.display = 'block';
-            
-            resetButtonStyles();
-            document.querySelector('.btn-orders').style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            document.querySelector('.btn-orders').style.color = 'white';
-            
-            updateOrdersList();
-        }
-
-        function resetButtonStyles() {
-            const buttons = ['.btn-products', '.btn-account', '.btn-orders'];
-            buttons.forEach(btn => {
-                document.querySelector(btn).style.background = '#e9ecef';
-                document.querySelector(btn).style.color = '#495057';
-            });
-        }
-
-        function updateStats() {
-            document.getElementById('total-orders').textContent = purchasedProducts.length;
-            document.getElementById('tasks-completed').textContent = completedTasks;
-        }
-
-        function buyProduct(price) {
-            if (!telegramUser) {
-                alert('Please login with Telegram first!');
-                return;
-            }
-
-            const tonUrl = https://app.tonkeeper.com/transfer/${tonAddress}?amount=${price * 1000000000}&text=Product Purchase - User: ${telegramUser.id};
-            
-            window.open(tonUrl, '_blank');
-            
-            setTimeout(() => {
-                const productData = {
-                    '0.05': { icon: '🎩', name: 'Premium Hat' },
-                    '0.08': { icon: '👑', name: 'Royal Crown' },
-                    '0.12': { icon: '💎', name: 'Diamond Package' },
-                    '0.03': { icon: '🔥', name: 'Fire Boost' },
-                    '0.15': { icon: '⚡', name: 'Lightning Pack' },
-                    '0.07': { icon: '🎯', name: 'Target Special' }
-                };
-                
-                const product = productData[price.toString()];
-                const orderData = {
-                    id: 'ORD' + Date.now().toString().slice(-6),
-                    icon: product.icon,
-                    name: product.name,
-                    price: price,
-                    date: new Date().toLocaleDateString(),
-                    time: new Date().toLocaleTimeString(),
-                    status: 'Completed',
-                    userId: telegramUser.id
-                };
-                
-                purchasedProducts.push(orderData);
-                
-                // Send purchase data to Telegram bot (optional)
-                sendPurchaseNotification(orderData);
-                
-                alert('Payment successful! Product added to your orders.');
-                updateOrdersList();
-                updatePurchasedList();
-                updateStats();
-            }, 3000);
-        }
-
-        function completeTask(button, points, url) {
-            if (button.classList.contains('completed')) return;
-            
-            if (!telegramUser) {
-                alert('Please login with Telegram first!');
-                return;
-            }
-            
-            window.open(url, '_blank');
-            
-            setTimeout(() => {
-                button.textContent = 'Completed';
-                button.classList.add('completed');
-                balance += points;
-                completedTasks++;
-                document.getElementById('balance').textContent = balance;
-                
-                // Send task completion to bot (optional)
-                sendTaskCompletion(points);
-                
-                button.style.background = '#28a745';
-                setTimeout(() => {
-                    button.style.background = '#6c757d';
-                }, 1000);
-                
-                updateStats();
-            }, 2000);
-        }
-
-        function sendPurchaseNotification(orderData) {
-            if (!telegramUser) return;
-            
-            const message =🛒 New Purchase!\n\nUser: ${telegramUser.first_name}\nProduct: ${orderData.name}\nPrice: ${orderData.price} TON\nOrder ID: ${orderData.id}`;
-            
-            // Send notification to Telegram bot
-            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: telegramUser.id,
-                    text: message,
-                    parse_mode: 'HTML'
-                })
-            }).catch(err => console.log('Notification send failed:', err));
-        }
-
-        function sendTaskCompletion(points) {
-            if (!telegramUser) return;
-            
-            const message = ✅ Task Completed!\n\nUser: ${telegramUser.first_name}\nReward: +${points} Points\nTotal Balance: ${balance} Points;
-            
-            // Send notification to Telegram bot
-            fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: telegramUser.id,
-                    text: message,
-                    parse_mode: 'HTML'
-                })
-            }).catch(err => console.log('Notification send failed:', err));
-        }
-
-        function updateOrdersList() {
-            const listContainer = document.getElementById('orders-list');
-            
-            if (purchasedProducts.length === 0) {
-                listContainer.innerHTML = `
-                    <div style="text-align: center; color: #666; padding: 40px;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">📦</div>
-                        <div style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">No Orders Yet</div>
-                        <div>Purchase products to see your orders here</div>
-                    </div>`;
-                return;
-            }
-            
-            listContainer.innerHTML = purchasedProducts.map(order => `
-                <div class="order-card">
-                    <div class="order-header">
-                        <div style="display: flex; align-items: center; flex: 1;">
-                            <div class="order-icon">${order.icon}</div>
-                            <div>
-                                <div style="font-weight: bold; font-size: 16px;">${order.name}</div>
-                                <div style="color: #666; font-size: 14px;">Order ID: ${order.id}</div>
-                            </div>
+        <div class="container" style="margin-top: 30px;">
+            <!-- Hero Stats with Modern Design -->
+            <div class="stats-grid" style="margin-bottom: 40px;">
+                <div class="stat-card blue">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>মোট শিক্ষার্থী</h3>
+                            <div class="number" id="publicTotalStudents">0</div>
                         </div>
-                        <div class="order-status">Completed</div>
-                    </div>
-                    <div class="order-details">
-                        <div><strong>Price:</strong> ${order.price} TON</div>
-                        <div><strong>Date:</strong> ${order.date} at ${order.time}</div>
+                        <div style="font-size: 3em; opacity: 0.3;">👨‍🎓</div>
                     </div>
                 </div>
-            `).join('');
-        }
+                <div class="stat-card green">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>আজকের উপস্থিতি</h3>
+                            <div class="number" id="publicTodayPresent">0</div>
+                        </div>
+                        <div style="font-size: 3em; opacity: 0.3;">✅</div>
+                    </div>
+                </div>
+                <div class="stat-card orange">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>মোট শিক্ষক</h3>
+                            <div class="number" id="publicTotalTeachers">0</div>
+                        </div>
+                        <div style="font-size: 3em; opacity: 0.3;">👨‍🏫</div>
+                    </div>
+                </div>
+                <div class="stat-card red">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3>সাফল্যের হার</h3>
+                            <div class="number">98%</div>
+                        </div>
+                        <div style="font-size: 3em; opacity: 0.3;">🏆</div>
+                    </div>
+                </div>
+            </div>
 
-        function updatePurchasedList() {
-            const listContainer = document.getElementById('purchased-list');
-            
-            if (purchasedProducts.length === 0) {
-                listContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No products purchased yet</div>';
-                return;
+            <!-- Modern Student Search Section -->
+            <div class="public-search-section">
+                <div class="section-header">
+                    <h2>🔍 শিক্ষার্থী খুঁজুন</h2>
+                    <p>শিক্ষার্থীর বিস্তারিত রিপোর্ট ডাউনলোড করতে নামের উপর ক্লিক করুন</p>
+                </div>
+                
+                <div class="search-bar" style="margin-bottom: 25px;">
+                    <input type="text" id="publicSearchStudent" placeholder="🔍 নাম বা রোল দিয়ে সার্চ করুন..." oninput="publicSearchStudents()">
+                    <select id="publicFilterClass" onchange="publicSearchStudents()">
+                        <option value="">📚 সব ক্লাস</option>
+                        <option value="6">ক্লাস ৬</option>
+                        <option value="7">ক্লাস ৭</option>
+                        <option value="8">ক্লাস ৮</option>
+                        <option value="9">ক্লাস ৯</option>
+                        <option value="10">ক্লাস ১০</option>
+                        <option value="11">ক্লাস ১১</option>
+                    </select>
+                </div>
+
+                <div class="students-grid" id="publicStudentsGrid">
+                    <!-- Students will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Recent Test Results with Modern Design -->
+            <div class="public-tests-section">
+                <div class="section-header">
+                    <h2>📊 সাম্প্রতিক পরীক্ষার ফলাফল</h2>
+                    <p>শীর্ষ পারফরম্যান্স</p>
+                </div>
+                
+                <div class="tests-grid" id="publicTestsGrid">
+                    <!-- Tests will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div id="studentDetailsModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2 id="studentDetailsName">শিক্ষার্থীর তথ্য</h2>
+                <span class="close-modal" onclick="closeStudentDetails()">&times;</span>
+            </div>
+            <div id="studentDetailsContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container" style="display: none;">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>🎓 কোচিং সিস্টেম</h1>
+                <p>অ্যাডমিন প্যানেল</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>ইউজারনেম</label>
+                    <input type="text" id="username" placeholder="demo" required>
+                </div>
+                <div class="form-group">
+                    <label>পাসওয়ার্ড</label>
+                    <input type="password" id="password" placeholder="demo" required>
+                </div>
+                <button type="submit" class="btn btn-primary">লগইন করুন</button>
+                <div class="forgot-password">
+                    <a href="#" id="forgotPasswordLink">পাসওয়ার্ড ভুলে গেছেন?</a>
+                </div>
+            </form>
+            <div class="forgot-password" style="margin-top: 15px;">
+                <a href="#" onclick="backToPublicView()">← পাবলিক ভিউতে ফিরে যান</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>পাসওয়ার্ড রিসেট</h2>
+                <span class="close-modal" onclick="closeForgotPassword()">&times;</span>
+            </div>
+            <div class="form-group">
+                <label>ইমেইল</label>
+                <input type="email" id="resetEmail" value="mraj52229@gmail.com" readonly>
+            </div>
+            <button class="btn btn-primary" onclick="sendResetCode()">কোড পাঠান</button>
+            <div id="codeSection" class="hidden" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label>রিসেট কোড</label>
+                    <input type="text" id="resetCode" placeholder="6 ডিজিটের কোড">
+                </div>
+                <div class="form-group">
+                    <label>নতুন পাসওয়ার্ড</label>
+                    <input type="password" id="newPassword" placeholder="নতুন পাসওয়ার্ড">
+                </div>
+                <button class="btn btn-secondary" onclick="resetPassword()">পাসওয়ার্ড পরিবর্তন করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>📚 কোচিং ম্যানেজমেন্ট ড্যাশবোর্ড</h1>
+                <button class="btn btn-danger" onclick="logout()">লগআউট</button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <h3>মোট শিক্ষার্থী</h3>
+                    <div class="number" id="totalStudents">0</div>
+                </div>
+                <div class="stat-card green">
+                    <h3>আজকের উপস্থিতি</h3>
+                    <div class="number" id="todayPresent">0</div>
+                </div>
+                <div class="stat-card orange">
+                    <h3>মোট শিক্ষক</h3>
+                    <div class="number" id="totalTeachers">0</div>
+                </div>
+                <div class="stat-card red">
+                    <h3>বকেয়া পেমেন্ট</h3>
+                    <div class="number" id="pendingPayments">0</div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showTab('students')">শিক্ষার্থী তালিকা</button>
+                <button class="nav-tab" onclick="showTab('attendance')">উপস্থিতি</button>
+                <button class="nav-tab" onclick="showTab('tests')">পরীক্ষার ফলাফল</button>
+                <button class="nav-tab" onclick="showTab('payments')">পেমেন্ট</button>
+                <button class="nav-tab" onclick="showTab('teachers')">শিক্ষক</button>
+            </div>
+
+            <!-- Students Section -->
+            <div id="studentsSection" class="content-section active">
+                <h2 style="margin-bottom: 20px;">শিক্ষার্থী ম্যানেজমেন্ট</h2>
+                <button class="btn btn-primary" onclick="openAddStudentModal()" style="margin-bottom: 20px;">নতুন শিক্ষার্থী যোগ করুন</button>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchStudent" placeholder="নাম, রোল বা ক্লাস দিয়ে সার্চ করুন..." oninput="searchStudents()">
+                    <select id="filterClass" onchange="searchStudents()">
+                        <option value="">সব ক্লাস</option>
+                        <option value="6">ক্লাস ৬</option>
+                        <option value="7">ক্লাস ৭</option>
+                        <option value="8">ক্লাস ৮</option>
+                        <option value="9">ক্লাস ৯</option>
+                        <option value="10">ক্লাস ১০</option>
+                        <option value="11">ক্লাস ১১</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>রোল</th>
+                                <th>নাম</th>
+                                <th>ক্লাস</th>
+                                <th>ফোন</th>
+                                <th>মাসিক ফি</th>
+                                <th>পেমেন্ট তারিখ</th>
+                                <th>একশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Attendance Section -->
+            <div id="attendanceSection" class="content-section">
+                <h2 style="margin-bottom: 20px;">উপস্থিতি নিবন্ধন</h2>
+                
+                <div class="search-bar">
+                    <input type="date" id="attendanceDate" value="">
+                    <select id="attendanceClass" onchange="loadAttendance()">
+                        <option value="">ক্লাস নির্বাচন করুন</option>
+                        <option value="6">ক্লাস ৬</option>
+                        <option value="7">ক্লাস ৭</option>
+                        <option value="8">ক্লাস ৮</option>
+                        <option value="9">ক্লাস ৯</option>
+                        <option value="10">ক্লাস ১০</option>
+                        <option value="11">ক্লাস ১১</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="saveAttendance()">উপস্থিতি সংরক্ষণ করুন</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>রোল</th>
+                                <th>নাম</th>
+                                <th>উপস্থিত</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tests Section -->
+            <div id="testsSection" class="content-section">
+                <h2 style="margin-bottom: 20px;">পরীক্ষার ফলাফল</h2>
+                <div id="classTestsContainer"></div>
+            </div>
+
+            <!-- Payments Section -->
+            <div id="paymentsSection" class="content-section">
+                <h2 style="margin-bottom: 20px;">পেমেন্ট ট্র্যাকিং</h2>
+                
+                <div class="search-bar" style="margin-bottom: 25px;">
+                    <select id="paymentClassFilter" onchange="loadPaymentsByClass()">
+                        <option value="">ক্লাস নির্বাচন করুন</option>
+                        <option value="6">ক্লাস ৬</option>
+                        <option value="7">ক্লাস ৭</option>
+                        <option value="8">ক্লাস ৮</option>
+                        <option value="9">ক্লাস ৯</option>
+                        <option value="10">ক্লাস ১০</option>
+                        <option value="11">ক্লাস ১১</option>
+                    </select>
+                    <input type="date" id="paymentDatePicker" style="padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em;">
+                </div>
+
+                <div id="paymentStudentsList" style="display: grid; gap: 20px;">
+                    <!-- Students will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div id="teachersSection" class="content-section">
+                <h2 style="margin-bottom: 20px;">শিক্ষক ম্যানেজমেন্ট</h2>
+                <button class="btn btn-primary" onclick="openAddTeacherModal()" style="margin-bottom: 20px;">নতুন শিক্ষক যোগ করুন</button>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>নাম</th>
+                                <th>বিষয়</th>
+                                <th>ফোন</th>
+                                <th>ইমেইল</th>
+                                <th>একশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>নতুন শিক্ষার্থী যোগ করুন</h2>
+                <span class="close-modal" onclick="closeAddStudentModal()">&times;</span>
+            </div>
+            <form id="addStudentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>রোল নাম্বার</label>
+                        <input type="text" id="studentRoll" required>
+                    </div>
+                    <div class="form-group">
+                        <label>নাম</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ক্লাস</label>
+                        <select id="studentClass" required>
+                            <option value="">নির্বাচন করুন</option>
+                            <option value="6">ক্লাস ৬</option>
+                            <option value="7">ক্লাস ৭</option>
+                            <option value="8">ক্লাস ৮</option>
+                            <option value="9">ক্লাস ৯</option>
+                            <option value="10">ক্লাস ১০</option>
+                            <option value="11">ক্লাস ১১</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ফোন নাম্বার</label>
+                        <input type="tel" id="studentPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>মাসিক ফি (টাকা)</label>
+                        <input type="number" id="monthlyFee" required>
+                    </div>
+                    <div class="form-group">
+                        <label>পেমেন্ট তারিখ</label>
+                        <input type="number" id="paymentDate" min="1" max="31" placeholder="১-৩১" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>পূর্ববর্তী ফলাফল</label>
+                    <textarea id="previousResult" rows="3" style="width: 100%; padding: 10px; border: 2px solid var(--border); border-radius: 10px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Teacher Modal -->
+    <div id="addTeacherModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>নতুন শিক্ষক যোগ করুন</h2>
+                <span class="close-modal" onclick="closeAddTeacherModal()">&times;</span>
+            </div>
+            <form id="addTeacherForm">
+                <div class="form-group">
+                    <label>নাম</label>
+                    <input type="text" id="teacherName" required>
+                </div>
+                <div class="form-group">
+                    <label>বিষয়</label>
+                    <input type="text" id="teacherSubject" required>
+                </div>
+                <div class="form-group">
+                    <label>ফোন নাম্বার</label>
+                    <input type="tel" id="teacherPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>ইমেইল</label>
+                    <input type="email" id="teacherEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary">সংরক্ষণ করুন</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Test Modal -->
+    <div id="testModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="testModalTitle">পরীক্ষার মার্কস এন্ট্রি</h2>
+                <span class="close-modal" onclick="closeTestModal()">&times;</span>
+            </div>
+            <div class="form-group">
+                <label>পরীক্ষার তারিখ</label>
+                <input type="date" id="testDate">
+            </div>
+            <div class="form-group">
+                <label>মোট নম্বর</label>
+                <input type="number" id="totalMarks">
+            </div>
+            <div id="testStudentsList"></div>
+            <button class="btn btn-primary" onclick="saveTestResults()">ফলাফল সংরক্ষণ করুন</button>
+        </div>
+    </div>
+
+    <!-- Payment Edit Modal -->
+    <div id="paymentEditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>পেমেন্ট আপডেট করুন</h2>
+                <span class="close-modal" onclick="closePaymentEditModal()">&times;</span>
+            </div>
+            <div class="payment-edit-form">
+                <div class="payment-edit-row">
+                    <div class="form-group">
+                        <label>শিক্ষার্থীর নাম</label>
+                        <input type="text" id="editPaymentStudentName" readonly style="background: var(--bg-light);">
+                    </div>
+                    <div class="form-group">
+                        <label>ক্লাস</label>
+                        <input type="text" id="editPaymentClass" readonly style="background: var(--bg-light);">
+                    </div>
+                </div>
+                <div class="payment-edit-row">
+                    <div class="form-group">
+                        <label>মাস</label>
+                        <input type="text" id="editPaymentMonth" readonly style="background: var(--bg-light);">
+                    </div>
+                    <div class="form-group">
+                        <label>বছর</label>
+                        <input type="text" id="editPaymentYear" readonly style="background: var(--bg-light);">
+                    </div>
+                </div>
+                <div class="payment-edit-row">
+                    <div class="form-group">
+                        <label>পেমেন্ট পরিমাণ (টাকা)</label>
+                        <input type="number" id="editPaymentAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label>পেমেন্ট স্ট্যাটাস</label>
+                        <select id="editPaymentStatus">
+                            <option value="true">পরিশোধিত</option>
+                            <option value="false">বকেয়া</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>পেমেন্টের তারিখ</label>
+                    <input type="date" id="editPaymentDate">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="updatePayment()">আপডেট করুন</button>
+                    <button class="btn" style="background: var(--text-light); color: white;" onclick="closePaymentEditModal()">বাতিল করুন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Report Modal -->
+    <div id="attendanceReportModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>📥 উপস্থিতি রিপোর্ট ডাউনলোড</h2>
+                <span class="close-modal" onclick="closeAttendanceReportModal()">&times;</span>
+            </div>
+            <div style="padding: 20px 0;">
+                <div class="form-group">
+                    <label>রিপোর্ট টাইপ</label>
+                    <select id="reportType" onchange="toggleReportDateOptions()" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em;">
+                        <option value="monthly">মাসিক রিপোর্ট</option>
+                        <option value="today">আজকের রিপোর্ট</option>
+                        <option value="daterange">তারিখ অনুযায়ী</option>
+                    </select>
+                </div>
+
+                <!-- Monthly Report Options -->
+                <div id="monthlyOptions">
+                    <div class="form-group">
+                        <label>মাস নির্বাচন করুন</label>
+                        <select id="reportMonth" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em;">
+                            <option value="">লোড হচ্ছে...</option>
+                        </select>
+                        <p style="font-size: 0.9em; color: var(--text-light); margin-top: 8px;">
+                            * শুধুমাত্র যে মাসগুলোতে উপস্থিতি আছে সেগুলো দেখানো হচ্ছে
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Date Range Options -->
+                <div id="dateRangeOptions" style="display: none;">
+                    <div class="form-group">
+                        <label>শুরুর তারিখ</label>
+                        <input type="date" id="reportStartDate" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em;">
+                    </div>
+                    <div class="form-group">
+                        <label>শেষ তারিখ</label>
+                        <input type="date" id="reportEndDate" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em;">
+                    </div>
+                </div>
+
+                <!-- Today Info -->
+                <div id="todayInfo" style="display: none; padding: 15px; background: var(--bg-light); border-radius: 10px; margin-bottom: 15px;">
+                    <p style="margin: 0; color: var(--text-dark); font-weight: 600;">
+                        📅 আজকের তারিখ: <span id="todayDateDisplay"></span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label>ক্লাস নির্বাচন করুন (ঐচ্ছিক)</label>
+                    <select id="reportClass" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em;">
+                        <option value="">সব ক্লাস</option>
+                        <option value="6">ক্লাস ৬</option>
+                        <option value="7">ক্লাস ৭</option>
+                        <option value="8">ক্লাস ৮</option>
+                        <option value="9">ক্লাস ৯</option>
+                        <option value="10">ক্লাস ১০</option>
+                        <option value="11">ক্লাস ১১</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button class="btn btn-primary" onclick="downloadAttendanceReport()" style="flex: 1;">
+                        📄 PDF/ছবি ডাউনলোড
+                    </button>
+                </div>
+
+                <!-- Available data info -->
+                <div id="availableDataInfo" style="margin-top: 20px; padding: 15px; background: #e0f2fe; border-radius: 10px; border-left: 4px solid var(--primary);">
+                    <p style="margin: 0; color: var(--text-dark); font-size: 0.9em;">
+                        <strong>ℹ️ তথ্য:</strong> মোট <span id="totalAttendanceDays">0</span> দিনের উপস্থিতি রেকর্ড আছে
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Report Generation -->
+    <canvas id="reportCanvas" style="display: none;"></canvas>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC01lb7jzflHvkYrHL8C4IPOLbdyVDsxJc",
+            authDomain: "coachingsir-61189.firebaseapp.com",
+            projectId: "coachingsir-61189",
+            storageBucket: "coachingsir-61189.firebasestorage.app",
+            messagingSenderId: "491407192710",
+            appId: "1:491407192710:web:297b1b97ec531f59559707",
+            measurementId: "G-2LWKWNLYPF"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Make Firebase available globally
+        window.db = db;
+        window.auth = auth;
+        window.firestoreFunctions = { collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc, query, where, orderBy };
+        window.authFunctions = { sendPasswordResetEmail };
+
+        // Initialize the app
+        window.addEventListener('load', async () => {
+            try {
+                // Show loading screen
+                document.getElementById('loadingScreen').style.display = 'flex';
+                
+                await initializeDemoData();
+                await loadPublicData();
+                
+                document.getElementById('attendanceDate').valueAsDate = new Date();
+                
+                // Hide loading screen
+                document.getElementById('loadingScreen').style.display = 'none';
+            } catch (error) {
+                console.error('Initialization error:', error);
+                document.getElementById('loadingScreen').style.display = 'none';
+                alert('ডেটা লোড করতে সমস্যা হয়েছে। Firebase Rules চেক করুন এবং পেজ রিফ্রেশ করুন।');
             }
-            
-            listContainer.innerHTML = purchasedProducts.map(product => `
-                <div class="purchased-item">
-                    <div class="purchased-icon">${product.icon}</div>
-                    <div>
-                        <div style="font-weight: bold;">${product.name}</div>
-                        <div style="font-size: 12px; color: #666;">${product.date}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Initialize app when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initTelegramApp();
         });
 
-        // Handle Telegram Web App events
-        if (window.Telegram && window.Telegram.WebApp) {
-            const tg = window.Telegram.WebApp;
-            
-            // Handle main button clicks
-            tg.onEvent('mainButtonClicked', function() {
-                // Handle main button actions
+        // Initialize comprehensive demo data with better structure and faster loading
+        async function initializeDemoData() {
+            try {
+                const { collection, getDocs, addDoc } = window.firestoreFunctions;
+                
+                // Check if data already exists
+                const studentsSnapshot = await getDocs(collection(window.db, 'students'));
+                if (studentsSnapshot.size > 0) {
+                    console.log('✅ Demo data already exists');
+                    updateLoadingMessage('ডেটা ইতিমধ্যে লোড করা আছে', 100);
+                    return;
+                }
+
+                console.log('🔄 Initializing demo data with optimized structure...');
+                updateLoadingMessage('ডেমো ডেটা তৈরি করা হচ্ছে...', 5);
+
+                // Demo students - organized by class
+                const demoStudents = [
+                    // Class 6
+                    { roll: '601', name: 'আবির হোসেন', class: '6', phone: '01712345601', monthlyFee: '1500', paymentDate: '5', previousResult: 'GPA 4.5' },
+                    { roll: '602', name: 'সাদিয়া আক্তার', class: '6', phone: '01712345602', monthlyFee: '1500', paymentDate: '5', previousResult: 'GPA 4.8' },
+                    { roll: '603', name: 'রাকিব উদ্দিন', class: '6', phone: '01712345603', monthlyFee: '1500', paymentDate: '10', previousResult: 'GPA 4.2' },
+                    
+                    // Class 7
+                    { roll: '701', name: 'তাসনিম জাহান', class: '7', phone: '01712345605', monthlyFee: '1800', paymentDate: '5', previousResult: 'GPA 4.9' },
+                    { roll: '702', name: 'মেহেদী হাসান', class: '7', phone: '01712345606', monthlyFee: '1800', paymentDate: '8', previousResult: 'GPA 4.6' },
+                    { roll: '703', name: 'নুসরাত জাবিন', class: '7', phone: '01712345607', monthlyFee: '1800', paymentDate: '12', previousResult: 'GPA 4.7' },
+                    
+                    // Class 8
+                    { roll: '801', name: 'ফারহান আহমেদ', class: '8', phone: '01712345609', monthlyFee: '2000', paymentDate: '5', previousResult: 'GPA 4.8' },
+                    { roll: '802', name: 'সুমাইয়া খানম', class: '8', phone: '01712345610', monthlyFee: '2000', paymentDate: '7', previousResult: 'GPA 5.0' },
+                    { roll: '803', name: 'তানভীর রহমান', class: '8', phone: '01712345611', monthlyFee: '2000', paymentDate: '15', previousResult: 'GPA 4.5' },
+                    
+                    // Class 9
+                    { roll: '901', name: 'আয়েশা সিদ্দিকা', class: '9', phone: '01712345613', monthlyFee: '2500', paymentDate: '5', previousResult: 'GPA 4.9' },
+                    { roll: '902', name: 'সাকিব আল হাসান', class: '9', phone: '01712345614', monthlyFee: '2500', paymentDate: '10', previousResult: 'GPA 4.7' },
+                    { roll: '903', name: 'জান্নাতুল ফেরদৌস', class: '9', phone: '01712345615', monthlyFee: '2500', paymentDate: '8', previousResult: 'GPA 4.8' },
+                    
+                    // Class 10
+                    { roll: '1001', name: 'রাফি ইবনে আমিন', class: '10', phone: '01712345617', monthlyFee: '3000', paymentDate: '5', previousResult: 'GPA 4.6' },
+                    { roll: '1002', name: 'তাহমিনা আক্তার', class: '10', phone: '01712345618', monthlyFee: '3000', paymentDate: '12', previousResult: 'GPA 4.9' },
+                    { roll: '1003', name: 'নাফিস আহমেদ', class: '10', phone: '01712345619', monthlyFee: '3000', paymentDate: '7', previousResult: 'GPA 4.5' },
+                    
+                    // Class 11
+                    { roll: '1101', name: 'মাহমুদা খাতুন', class: '11', phone: '01712345621', monthlyFee: '3500', paymentDate: '5', previousResult: 'GPA 4.8' },
+                    { roll: '1102', name: 'শাহরিয়ার কবীর', class: '11', phone: '01712345622', monthlyFee: '3500', paymentDate: '10', previousResult: 'GPA 4.7' },
+                    { roll: '1103', name: 'নাজমুল হক', class: '11', phone: '01712345623', monthlyFee: '3500', paymentDate: '15', previousResult: 'GPA 4.9' }
+                ];
+
+                updateLoadingMessage('শিক্ষার্থী যোগ করা হচ্ছে...', 10);
+
+                // Add students with structured data
+                const studentIds = {};
+                for (let i = 0; i < demoStudents.length; i++) {
+                    const student = demoStudents[i];
+                    try {
+                        const docRef = await addDoc(collection(window.db, 'students'), {
+                            roll: student.roll,
+                            name: student.name,
+                            class: student.class,
+                            phone: student.phone,
+                            monthlyFee: student.monthlyFee,
+                            paymentDate: student.paymentDate,
+                            previousResult: student.previousResult,
+                            createdAt: new Date().toISOString()
+                        });
+                        studentIds[student.roll] = { id: docRef.id, ...student };
+                        updateLoadingProgress(10 + (i / demoStudents.length) * 15);
+                    } catch (error) {
+                        console.error('Error adding student:', student.name, error);
+                        throw new Error('Firebase এ লিখতে সমস্যা হচ্ছে। Rules চেক করুন!');
+                    }
+                }
+
+                console.log('✅ Students added:', Object.keys(studentIds).length);
+                updateLoadingMessage('শিক্ষক যোগ করা হচ্ছে...', 25);
+
+                // Add teachers
+                const demoTeachers = [
+                    { name: 'মোঃ করিম উল্লাহ', subject: 'বাংলা', phone: '01812345601', email: 'karim@coaching.com' },
+                    { name: 'সালমা বেগম', subject: 'ইংরেজি', phone: '01812345602', email: 'salma@coaching.com' },
+                    { name: 'রহিম উদ্দিন', subject: 'গণিত', phone: '01812345603', email: 'rahim@coaching.com' },
+                    { name: 'নাসরিন আক্তার', subject: 'বিজ্ঞান', phone: '01812345604', email: 'nasrin@coaching.com' }
+                ];
+
+                for (const teacher of demoTeachers) {
+                    await addDoc(collection(window.db, 'teachers'), teacher);
+                }
+
+                console.log('✅ Teachers added:', demoTeachers.length);
+                updateLoadingMessage('উপস্থিতি রেকর্ড যোগ করা হচ্ছে...', 35);
+
+                // Add attendance for last 15 days only (reduced for faster loading)
+                const attendanceBatch = [];
+                for (let i = 0; i < 15; i++) {
+                    const date = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    
+                    for (const [roll, student] of Object.entries(studentIds)) {
+                        const isPresent = Math.random() > 0.20;
+                        attendanceBatch.push({
+                            class: student.class,
+                            roll: roll,
+                            studentName: student.name,
+                            studentId: student.id,
+                            date: date,
+                            present: isPresent
+                        });
+                    }
+                }
+
+                // Batch add attendance
+                const attendancePromises = attendanceBatch.map(att => 
+                    addDoc(collection(window.db, 'attendance'), att)
+                );
+                await Promise.all(attendancePromises);
+
+                console.log('✅ Attendance records added:', attendanceBatch.length);
+                updateLoadingMessage('পরীক্ষার ফলাফল যোগ করা হচ্ছে...', 55);
+
+                // Add test results - reduced to 3 tests per subject
+                const subjects = ['বাংলা', 'ইংরেজি', 'গণিত', 'বিজ্ঞান'];
+                const testBatch = [];
+
+                for (let testNum = 0; testNum < 3; testNum++) {
+                    const testDate = new Date(Date.now() - (testNum * 10 + 2) * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    
+                    for (const subject of subjects) {
+                        for (const [roll, student] of Object.entries(studentIds)) {
+                            const marks = Math.floor(Math.random() * 35) + 65;
+                            testBatch.push({
+                                class: student.class,
+                                roll: roll,
+                                studentName: student.name,
+                                studentId: student.id,
+                                subject: subject,
+                                marks: marks.toString(),
+                                totalMarks: '100',
+                                date: testDate
+                            });
+                        }
+                    }
+                }
+
+                const testPromises = testBatch.map(test => 
+                    addDoc(collection(window.db, 'tests'), test)
+                );
+                await Promise.all(testPromises);
+
+                console.log('✅ Test results added:', testBatch.length);
+                updateLoadingMessage('পেমেন্ট রেকর্ড যোগ করা হচ্ছে...', 75);
+
+                // Add payment records - last 3 months only
+                const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+                const currentMonth = new Date().getMonth();
+                const paymentBatch = [];
+                
+                for (let i = 0; i < 3; i++) {
+                    const monthIndex = (currentMonth - i + 12) % 12;
+                    const monthName = months[monthIndex];
+                    const year = new Date().getFullYear();
+                    
+                    for (const [roll, student] of Object.entries(studentIds)) {
+                        const isPaid = Math.random() > 0.15;
+                        const paymentDateInMonth = parseInt(student.paymentDate);
+                        const paidDate = isPaid ? 
+                            new Date(year, monthIndex, paymentDateInMonth).toISOString().split('T')[0] : null;
+                        
+                        paymentBatch.push({
+                            class: student.class,
+                            roll: roll,
+                            studentName: student.name,
+                            studentId: student.id,
+                            month: monthName,
+                            year: year.toString(),
+                            amount: student.monthlyFee,
+                            isPaid: isPaid,
+                            paidDate: paidDate,
+                            dueDate: `${paymentDateInMonth}/${monthIndex + 1}/${year}`
+                        });
+                    }
+                }
+
+                const paymentPromises = paymentBatch.map(payment => 
+                    addDoc(collection(window.db, 'payments'), payment)
+                );
+                await Promise.all(paymentPromises);
+
+                console.log('✅ Payment records added:', paymentBatch.length);
+                updateLoadingMessage('সম্পন্ন হয়েছে! ✅', 100);
+
+                console.log('🎉 All demo data initialized!');
+                console.log('Total:', {
+                    students: Object.keys(studentIds).length,
+                    teachers: demoTeachers.length,
+                    attendance: attendanceBatch.length,
+                    tests: testBatch.length,
+                    payments: paymentBatch.length
+                });
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                updateLoadingMessage('❌ ত্রুটি: ' + error.message, 0);
+                throw error;
+            }
+        }
+
+        function updateLoadingMessage(message, percent) {
+            const msgEl = document.getElementById('loadingMessage');
+            const progressEl = document.getElementById('loadingProgress');
+            if (msgEl) msgEl.textContent = message;
+            if (progressEl && percent !== undefined) {
+                progressEl.style.width = percent + '%';
+            }
+        }
+
+        function updateLoadingProgress(percent) {
+            const progressEl = document.getElementById('loadingProgress');
+            if (progressEl) {
+                progressEl.style.width = percent + '%';
+            }
+        }
+
+        function updateLoadingStats(stats) {
+            const statsEl = document.getElementById('loadingStats');
+            if (statsEl) statsEl.textContent = stats;
+        }
+    </script>
+
+    <script>
+        // Public view functions
+        function showAdminLogin() {
+            document.getElementById('publicView').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+        }
+
+        function backToPublicView() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('publicView').style.display = 'block';
+        }
+
+        async function loadPublicData() {
+            try {
+                const { collection, getDocs } = window.firestoreFunctions;
+                
+                // Load students count
+                const studentsSnapshot = await getDocs(collection(window.db, 'students'));
+                document.getElementById('publicTotalStudents').textContent = studentsSnapshot.size;
+                
+                // Load teachers count
+                const teachersSnapshot = await getDocs(collection(window.db, 'teachers'));
+                document.getElementById('publicTotalTeachers').textContent = teachersSnapshot.size;
+                
+                // Calculate today's attendance
+                const today = new Date().toISOString().split('T')[0];
+                const attendanceSnapshot = await getDocs(collection(window.db, 'attendance'));
+                let todayPresent = 0;
+                attendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.date === today && data.present) {
+                        todayPresent++;
+                    }
+                });
+                document.getElementById('publicTodayPresent').textContent = todayPresent;
+
+                // Display all students
+                const students = [];
+                studentsSnapshot.forEach(doc => {
+                    students.push({ id: doc.id, ...doc.data() });
+                });
+                displayPublicStudentsGrid(students, today, attendanceSnapshot);
+
+                // Display recent test results
+                const testsSnapshot = await getDocs(collection(window.db, 'tests'));
+                const tests = [];
+                testsSnapshot.forEach(doc => {
+                    tests.push({ id: doc.id, ...doc.data() });
+                });
+                tests.sort((a, b) => new Date(b.date) - new Date(a.date));
+                displayPublicTestsGrid(tests.slice(0, 12));
+
+            } catch (error) {
+                console.error('Error loading public data:', error);
+            }
+        }
+
+        function displayPublicStudentsGrid(students, today, attendanceSnapshot) {
+            const grid = document.getElementById('publicStudentsGrid');
+            grid.innerHTML = '';
+
+            if (students.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-light);">কোনো শিক্ষার্থী পাওয়া যায়নি</p>';
+                return;
+            }
+
+            students.forEach(student => {
+                // Check attendance for today
+                let isPresent = false;
+                attendanceSnapshot.forEach(doc => {
+                    const attendance = doc.data();
+                    if (attendance.studentId === student.id && attendance.date === today) {
+                        isPresent = attendance.present;
+                    }
+                });
+
+                const initial = student.name.charAt(0);
+                const statusClass = isPresent ? 'present' : 'absent';
+                const statusIcon = isPresent ? '✓' : '✗';
+                const statusText = isPresent ? 'উপস্থিত' : 'অনুপস্থিত';
+
+                const card = document.createElement('div');
+                card.className = 'student-card';
+                card.onclick = () => showStudentDetails(student.id);
+                card.innerHTML = `
+                    <div class="student-card-header">
+                        <div class="student-avatar">${initial}</div>
+                        <div class="student-info">
+                            <h3>${student.name}</h3>
+                            <p>রোল নং: ${student.roll}</p>
+                        </div>
+                    </div>
+                    <div class="student-card-body">
+                        <span class="student-class">ক্লাস ${student.class}</span>
+                        <span class="student-status ${statusClass}">${statusIcon} ${statusText}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
-            
-            // Handle back button
-            tg.onEvent('backButtonClicked', function() {
-                showProducts();
+        }
+
+        function displayPublicTestsGrid(tests) {
+            const grid = document.getElementById('publicTestsGrid');
+            grid.innerHTML = '';
+
+            if (tests.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-light);">কোনো পরীক্ষার ফলাফল পাওয়া যায়নি</p>';
+                return;
+            }
+
+            tests.forEach(test => {
+                const percentage = ((parseInt(test.marks) / parseInt(test.totalMarks)) * 100).toFixed(0);
+                const formattedDate = new Date(test.date).toLocaleDateString('bn-BD', { 
+                    day: 'numeric', 
+                    month: 'short', 
+                    year: 'numeric' 
+                });
+
+                const card = document.createElement('div');
+                card.className = 'test-card';
+                card.innerHTML = `
+                    <div class="test-card-header">
+                        <span class="test-subject">${test.subject}</span>
+                        <span class="test-date">${formattedDate}</span>
+                    </div>
+                    <div class="test-card-body">
+                        <div>
+                            <div class="test-student-name">${test.studentName}</div>
+                            <span class="test-class-badge">ক্লাস ${test.class}</span>
+                        </div>
+                        <div class="test-marks">${test.marks}/${test.totalMarks}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
+        }
+
+        // Optimized search with debouncing
+        let searchTimeout;
+        function publicSearchStudents() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(async () => {
+                const searchTerm = document.getElementById('publicSearchStudent').value.toLowerCase();
+                const filterClass = document.getElementById('publicFilterClass').value;
+
+                try {
+                    const { collection, getDocs } = window.firestoreFunctions;
+                    const studentsSnapshot = await getDocs(collection(window.db, 'students'));
+                    const today = new Date().toISOString().split('T')[0];
+                    const attendanceSnapshot = await getDocs(collection(window.db, 'attendance'));
+                    
+                    let students = [];
+                    studentsSnapshot.forEach(doc => {
+                        students.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    students = students.filter(student => {
+                        const matchesSearch = !searchTerm || 
+                            student.name.toLowerCase().includes(searchTerm) ||
+                            student.roll.toLowerCase().includes(searchTerm);
+                        
+                        const matchesClass = !filterClass || student.class === filterClass;
+                        
+                        return matchesSearch && matchesClass;
+                    });
+
+                    displayPublicStudentsGrid(students, today, attendanceSnapshot);
+                } catch (error) {
+                    console.error('Error searching students:', error);
+                }
+            }, 300); // Wait 300ms after user stops typing
+        }
+
+        // Attendance Report Functions
+        async function openAttendanceReportModal() {
+            document.getElementById('attendanceReportModal').classList.add('active');
+            
+            // Set today's date
+            const today = new Date();
+            const todayBengali = today.toLocaleDateString('bn-BD', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            });
+            document.getElementById('todayDateDisplay').textContent = todayBengali;
+            document.getElementById('reportStartDate').valueAsDate = today;
+            document.getElementById('reportEndDate').valueAsDate = today;
+            
+            // Load available months with data
+            await loadAvailableMonths();
+        }
+
+        function closeAttendanceReportModal() {
+            document.getElementById('attendanceReportModal').classList.remove('active');
+        }
+
+        function toggleReportDateOptions() {
+            const reportType = document.getElementById('reportType').value;
+            const monthlyOptions = document.getElementById('monthlyOptions');
+            const dateRangeOptions = document.getElementById('dateRangeOptions');
+            const todayInfo = document.getElementById('todayInfo');
+
+            if (reportType === 'monthly') {
+                monthlyOptions.style.display = 'block';
+                dateRangeOptions.style.display = 'none';
+                todayInfo.style.display = 'none';
+            } else if (reportType === 'today') {
+                monthlyOptions.style.display = 'none';
+                dateRangeOptions.style.display = 'none';
+                todayInfo.style.display = 'block';
+            } else if (reportType === 'daterange') {
+                monthlyOptions.style.display = 'none';
+                dateRangeOptions.style.display = 'block';
+                todayInfo.style.display = 'none';
+            }
+        }
+
+        async function loadAvailableMonths() {
+            try {
+                const { collection, getDocs } = window.firestoreFunctions;
+                const attendanceSnapshot = await getDocs(collection(window.db, 'attendance'));
+                
+                // Get all unique month-year combinations
+                const monthYearSet = new Set();
+                attendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.date) {
+                        const date = new Date(data.date);
+                        const monthYear = `${date.getFullYear()}-${date.getMonth()}`;
+                        monthYearSet.add(monthYear);
+                    }
+                });
+
+                // Convert to array and sort
+                const monthYearArray = Array.from(monthYearSet).map(my => {
+                    const [year, month] = my.split('-');
+                    return { year: parseInt(year), month: parseInt(month) };
+                });
+                monthYearArray.sort((a, b) => {
+                    if (a.year !== b.year) return b.year - a.year;
+                    return b.month - a.month;
+                });
+
+                // Populate dropdown
+                const monthNames = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+                const select = document.getElementById('reportMonth');
+                select.innerHTML = '<option value="">মাস নির্বাচন করুন</option>';
+                
+                if (monthYearArray.length === 0) {
+                    select.innerHTML = '<option value="">কোনো উপস্থিতি রেকর্ড নেই</option>';
+                } else {
+                    monthYearArray.forEach(({ year, month }) => {
+                        const option = document.createElement('option');
+                        option.value = `${year}-${month}`;
+                        option.textContent = `${monthNames[month]} ${year}`;
+                        select.appendChild(option);
+                    });
+                    
+                    // Auto-select the most recent month
+                    select.value = `${monthYearArray[0].year}-${monthYearArray[0].month}`;
+                }
+
+                // Update info
+                document.getElementById('totalAttendanceDays').textContent = attendanceSnapshot.size;
+
+            } catch (error) {
+                console.error('Error loading available months:', error);
+                document.getElementById('reportMonth').innerHTML = '<option value="">লোড করতে সমস্যা হয়েছে</option>';
+            }
+        }
+
+        async function generateAttendanceReportData() {
+            const reportType = document.getElementById('reportType').value;
+            const selectedClass = document.getElementById('reportClass').value;
+            let startDate, endDate, reportTitle;
+
+            if (reportType === 'monthly') {
+                const monthYearValue = document.getElementById('reportMonth').value;
+                if (!monthYearValue) {
+                    alert('মাস নির্বাচন করুন!');
+                    return null;
+                }
+
+                const [year, monthIndex] = monthYearValue.split('-');
+                const monthNames = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+                
+                startDate = new Date(year, monthIndex, 1).toISOString().split('T')[0];
+                endDate = new Date(year, parseInt(monthIndex) + 1, 0).toISOString().split('T')[0];
+                reportTitle = `${monthNames[monthIndex]} ${year}`;
+
+            } else if (reportType === 'today') {
+                const today = new Date();
+                startDate = today.toISOString().split('T')[0];
+                endDate = startDate;
+                reportTitle = `আজকের উপস্থিতি - ${today.toLocaleDateString('bn-BD')}`;
+
+            } else if (reportType === 'daterange') {
+                startDate = document.getElementById('reportStartDate').value;
+                endDate = document.getElementById('reportEndDate').value;
+                
+                if (!startDate || !endDate) {
+                    alert('শুরু এবং শেষ তারিখ নির্বাচন করুন!');
+                    return null;
+                }
+                
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                reportTitle = `${start.toLocaleDateString('bn-BD')} থেকে ${end.toLocaleDateString('bn-BD')}`;
+            }
+
+            try {
+                const { collection, getDocs, query, where } = window.firestoreFunctions;
+                
+                // Get students
+                let studentsQuery = selectedClass ? 
+                    query(collection(window.db, 'students'), where('class', '==', selectedClass)) :
+                    collection(window.db, 'students');
+                
+                const studentsSnapshot = await getDocs(studentsQuery);
+                const students = {};
+                studentsSnapshot.forEach(doc => {
+                    students[doc.id] = { id: doc.id, ...doc.data() };
+                });
+
+                // Get attendance for the date range
+                const attendanceSnapshot = await getDocs(collection(window.db, 'attendance'));
+                const attendanceData = {};
+
+                attendanceSnapshot.forEach(doc => {
+                    const att = doc.data();
+                    if (att.date >= startDate && att.date <= endDate) {
+                        if (!attendanceData[att.studentId]) {
+                            attendanceData[att.studentId] = { present: 0, total: 0 };
+                        }
+                        attendanceData[att.studentId].total++;
+                        if (att.present) attendanceData[att.studentId].present++;
+                    }
+                });
+
+                return {
+                    reportTitle,
+                    reportType,
+                    students,
+                    attendanceData,
+                    selectedClass,
+                    dateRange: `${startDate} থেকে ${endDate}`
+                };
+            } catch (error) {
+                console.error('Error generating report data:', error);
+                alert('রিপোর্ট তৈরি করতে সমস্যা হয়েছে!');
+                return null;
+            }
+        }
+
+        async function downloadAttendanceReport() {
+            const reportData = await generateAttendanceReportData();
+            if (!reportData) return;
+
+            // Create canvas report
+            const canvas = document.getElementById('reportCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // A4 size in pixels (300 DPI)
+            canvas.width = 2480;
+            canvas.height = 3508;
+
+            // Fill white background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Header with gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 250);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, 250);
+
+            // Header text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('স্মার্ট কোচিং সেন্টার', canvas.width / 2, 110);
+            
+            ctx.font = '50px Arial';
+            ctx.fillText('উপস্থিতি রিপোর্ট', canvas.width / 2, 190);
+
+            // Report title
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 55px Arial';
+            ctx.fillText(reportData.reportTitle, canvas.width / 2, 350);
+
+            if (reportData.selectedClass) {
+                ctx.font = '45px Arial';
+                ctx.fillText(`ক্লাস ${reportData.selectedClass}`, canvas.width / 2, 420);
+            }
+
+            // Table header background
+            let y = 520;
+            
+            // Add note for today's report
+            if (reportData.reportType === 'today') {
+                ctx.fillStyle = '#3b82f6';
+                ctx.fillRect(100, y, canvas.width - 200, 60);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 35px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('আজকের উপস্থিতি রেকর্ড', canvas.width / 2, y + 40);
+                y += 80;
+            }
+
+            // Table header
+            ctx.fillStyle = '#f1f5f9';
+            ctx.fillRect(100, y, canvas.width - 200, 80);
+            
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 40px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('রোল', 150, y + 50);
+            ctx.fillText('নাম', 350, y + 50);
+            ctx.fillText('ক্লাস', 1000, y + 50);
+            ctx.fillText('উপস্থিত', 1350, y + 50);
+            ctx.fillText('মোট', 1750, y + 50);
+            ctx.fillText('শতাংশ', 2100, y + 50);
+
+            y += 100;
+
+            // Table rows
+            ctx.font = '35px Arial';
+            let rowIndex = 0;
+            const studentEntries = Object.entries(reportData.students);
+            
+            // Sort by class and roll
+            studentEntries.sort((a, b) => {
+                if (a[1].class !== b[1].class) return parseInt(a[1].class) - parseInt(b[1].class);
+                return parseInt(a[1].roll) - parseInt(b[1].roll);
+            });
+
+            for (const [studentId, student] of studentEntries) {
+                if (y > 3250) break; // Page limit
+
+                const attendance = reportData.attendanceData[studentId] || { present: 0, total: 0 };
+                const percentage = attendance.total > 0 ? 
+                    ((attendance.present / attendance.total) * 100).toFixed(0) : '0';
+
+                // Alternate row colors
+                if (rowIndex % 2 === 0) {
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.fillRect(100, y - 45, canvas.width - 200, 70);
+                }
+
+                ctx.fillStyle = '#1e293b';
+                ctx.fillText(student.roll, 150, y);
+                
+                // Truncate long names
+                const name = student.name.length > 20 ? student.name.substring(0, 20) + '...' : student.name;
+                ctx.fillText(name, 350, y);
+                ctx.fillText(`ক্লাস ${student.class}`, 1000, y);
+                ctx.fillText(attendance.present.toString(), 1450, y);
+                ctx.fillText(attendance.total.toString(), 1850, y);
+                
+                // Color code percentage
+                const percent = parseFloat(percentage);
+                ctx.fillStyle = percent >= 75 ? '#10b981' : percent >= 50 ? '#f59e0b' : '#ef4444';
+                ctx.font = 'bold 38px Arial';
+                ctx.fillText(`${percentage}%`, 2100, y);
+                ctx.font = '35px Arial';
+                ctx.fillStyle = '#1e293b';
+
+                y += 70;
+                rowIndex++;
+            }
+
+            // Footer with date and summary
+            y = 3350;
+            ctx.fillStyle = '#e2e8f0';
+            ctx.fillRect(100, y, canvas.width - 200, 100);
+            
+            ctx.fillStyle = '#64748b';
+            ctx.font = '32px Arial';
+            ctx.textAlign = 'center';
+            const generatedDate = new Date().toLocaleDateString('bn-BD');
+            ctx.fillText(`রিপোর্ট তৈরির তারিখ: ${generatedDate}`, canvas.width / 2, y + 35);
+            
+            ctx.font = 'bold 30px Arial';
+            ctx.fillText(`মোট শিক্ষার্থী: ${studentEntries.length}`, canvas.width / 2, y + 75);
+
+            // Convert to blob and download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                
+                // Create filename based on report type
+                let filename = 'উপস্থিতি-রিপোর্ট';
+                if (reportData.reportType === 'today') {
+                    filename += '-আজকের';
+                } else {
+                    filename += `-${reportData.reportTitle.replace(/\s+/g, '-')}`;
+                }
+                if (reportData.selectedClass) {
+                    filename += `-ক্লাস-${reportData.selectedClass}`;
+                }
+                filename += '.png';
+                
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(url);
+                
+                alert('রিপোর্ট ডাউনলোড হচ্ছে! ✅');
+                closeAttendanceReportModal();
+            });
+        }
+
+        // Show detailed student information
+        async function showStudentDetails(studentId) {
+            try {
+                const { collection, doc, getDoc, getDocs, query, where } = window.firestoreFunctions;
+                
+                // Get student data
+                const studentDoc = await getDoc(doc(window.db, 'students', studentId));
+                const student = studentDoc.data();
+                
+                document.getElementById('studentDetailsName').textContent = student.name + ' - সম্পূর্ণ তথ্য';
+                
+                // Get attendance stats
+                const attendanceQuery = query(collection(window.db, 'attendance'), where('studentId', '==', studentId));
+                const attendanceSnapshot = await getDocs(attendanceQuery);
+                let totalDays = 0, presentDays = 0;
+                attendanceSnapshot.forEach(doc => {
+                    totalDays++;
+                    if (doc.data().present) presentDays++;
+                });
+                const attendancePercent = totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(1) : 0;
+                
+                // Get test results
+                const testsQuery = query(collection(window.db, 'tests'), where('studentId', '==', studentId));
+                const testsSnapshot = await getDocs(testsQuery);
+                const tests = [];
+                let totalMarks = 0, obtainedMarks = 0;
+                testsSnapshot.forEach(doc => {
+                    const test = doc.data();
+                    tests.push(test);
+                    totalMarks += parseInt(test.totalMarks);
+                    obtainedMarks += parseInt(test.marks);
+                });
+                tests.sort((a, b) => new Date(b.date) - new Date(a.date));
+                const avgPercentage = totalMarks > 0 ? ((obtainedMarks / totalMarks) * 100).toFixed(1) : 0;
+                
+                // Get payment info
+                const paymentsQuery = query(collection(window.db, 'payments'), where('studentId', '==', studentId));
+                const paymentsSnapshot = await getDocs(paymentsQuery);
+                let paidCount = 0, unpaidCount = 0;
+                const payments = [];
+                paymentsSnapshot.forEach(doc => {
+                    const payment = doc.data();
+                    payments.push(payment);
+                    if (payment.isPaid) paidCount++; else unpaidCount++;
+                });
+                
+                // Build HTML
+                let html = `
+                    <div class="details-section">
+                        <h3>📋 মৌলিক তথ্য</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">রোল নাম্বার</div>
+                                <div class="info-value">${student.roll}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">ক্লাস</div>
+                                <div class="info-value">ক্লাস ${student.class}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">ফোন নাম্বার</div>
+                                <div class="info-value">${student.phone}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">মাসিক ফি</div>
+                                <div class="info-value">৳${student.monthlyFee}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">পেমেন্ট তারিখ</div>
+                                <div class="info-value">${student.paymentDate} তারিখ</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">পূর্ববর্তী ফলাফল</div>
+                                <div class="info-value">${student.previousResult}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3>📊 পারফরম্যান্স স্ট্যাটিস্টিক্স</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">উপস্থিতির হার</div>
+                                <div class="info-value" style="color: ${attendancePercent >= 75 ? 'var(--secondary)' : 'var(--danger)'}">
+                                    ${attendancePercent}%
+                                </div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">
+                                    ${presentDays}/${totalDays} দিন
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">গড় ফলাফল</div>
+                                <div class="info-value" style="color: var(--primary)">
+                                    ${avgPercentage}%
+                                </div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">
+                                    ${tests.length}টি পরীক্ষা
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">পেমেন্ট স্ট্যাটাস</div>
+                                <div class="info-value" style="color: ${unpaidCount === 0 ? 'var(--secondary)' : 'var(--warning)'}">
+                                    ${paidCount}/${paidCount + unpaidCount}
+                                </div>
+                                <div style="font-size: 0.85em; color: var(--text-light); margin-top: 5px;">
+                                    পরিশোধিত
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3>📝 সকল পরীক্ষার ফলাফল</h3>
+                        <div class="timeline">
+                `;
+                
+                if (tests.length > 0) {
+                    tests.forEach(test => {
+                        const percentage = ((parseInt(test.marks) / parseInt(test.totalMarks)) * 100).toFixed(0);
+                        const gradeColor = percentage >= 80 ? 'var(--secondary)' : percentage >= 60 ? 'var(--warning)' : 'var(--danger)';
+                        html += `
+                            <div class="timeline-item">
+                                <div class="timeline-date">${new Date(test.date).toLocaleDateString('bn-BD')}</div>
+                                <div class="timeline-content">
+                                    <span class="timeline-subject">${test.subject}</span>
+                                    <span class="timeline-marks" style="color: ${gradeColor}">
+                                        ${test.marks}/${test.totalMarks} (${percentage}%)
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += '<p style="text-align: center; padding: 20px; color: var(--text-light);">কোনো পরীক্ষার রেকর্ড নেই</p>';
+                }
+                
+                html += `
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <h3>💰 পেমেন্ট হিস্টরি</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>মাস</th>
+                                        <th>বছর</th>
+                                        <th>পরিমাণ</th>
+                                        <th>স্ট্যাটাস</th>
+                                        <th>তারিখ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+                
+                const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+                payments.sort((a, b) => {
+                    if (a.year !== b.year) return b.year - a.year;
+                    return months.indexOf(b.month) - months.indexOf(a.month);
+                });
+                
+                if (payments.length > 0) {
+                    payments.forEach(payment => {
+                        html += `
+                            <tr>
+                                <td>${payment.month}</td>
+                                <td>${payment.year}</td>
+                                <td>৳${payment.amount}</td>
+                                <td>
+                                    <span class="badge ${payment.isPaid ? 'paid' : 'unpaid'}">
+                                        ${payment.isPaid ? '✓ পরিশোধিত' : '✗ বকেয়া'}
+                                    </span>
+                                </td>
+                                <td>${payment.paidDate || '-'}</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    html += '<tr><td colspan="5" style="text-align: center; padding: 20px;">কোনো পেমেন্ট রেকর্ড নেই</td></tr>';
+                }
+                
+                html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('studentDetailsContent').innerHTML = html;
+                document.getElementById('studentDetailsModal').classList.add('active');
+                
+            } catch (error) {
+                console.error('Error loading student details:', error);
+                alert('শিক্ষার্থীর তথ্য লোড করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        function closeStudentDetails() {
+            document.getElementById('studentDetailsModal').classList.remove('active');
+        }
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'demo' && password === 'demo') {
+                document.getElementById('publicView').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                loadDashboardData();
+            } else {
+                alert('ভুল ইউজারনেম বা পাসওয়ার্ড!');
+            }
+        });
+
+        // Forgot password
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('forgotPasswordModal').classList.add('active');
+        });
+
+        function closeForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.remove('active');
+            document.getElementById('codeSection').classList.add('hidden');
+        }
+
+        function sendResetCode() {
+            const email = document.getElementById('resetEmail').value;
+            const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+            localStorage.setItem('resetCode', resetCode);
+            
+            // In production, send email via backend
+            alert(`রিসেট কোড ${email} এ পাঠানো হয়েছে।\nডেমোর জন্য কোড: ${resetCode}`);
+            document.getElementById('codeSection').classList.remove('hidden');
+        }
+
+        function resetPassword() {
+            const enteredCode = document.getElementById('resetCode').value;
+            const savedCode = localStorage.getItem('resetCode');
+            const newPassword = document.getElementById('newPassword').value;
+
+            if (enteredCode === savedCode) {
+                localStorage.setItem('adminPassword', newPassword);
+                alert('পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে!');
+                closeForgotPassword();
+            } else {
+                alert('ভুল রিসেট কোড!');
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('publicView').style.display = 'block';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            loadPublicData();
+        }
+
+        // Tab navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabName + 'Section').classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'tests') {
+                loadTestsView();
+            } else if (tabName === 'payments') {
+                loadPayments();
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                const { collection, getDocs } = window.firestoreFunctions;
+                
+                // Load students
+                const studentsSnapshot = await getDocs(collection(window.db, 'students'));
+                const students = [];
+                studentsSnapshot.forEach(doc => {
+                    students.push({ id: doc.id, ...doc.data() });
+                });
+                
+                document.getElementById('totalStudents').textContent = students.length;
+                
+                // Load teachers
+                const teachersSnapshot = await getDocs(collection(window.db, 'teachers'));
+                document.getElementById('totalTeachers').textContent = teachersSnapshot.size;
+                
+                displayStudents(students);
+                loadTeachers();
+                
+                // Calculate today's attendance
+                const today = new Date().toISOString().split('T')[0];
+                const attendanceSnapshot = await getDocs(collection(window.db, 'attendance'));
+                let todayPresent = 0;
+                attendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.date === today && data.present) {
+                        todayPresent++;
+                    }
+                });
+                document.getElementById('todayPresent').textContent = todayPresent;
+                
+                // Calculate pending payments
+                const currentDay = new Date().getDate();
+                let pending = 0;
+                students.forEach(student => {
+                    if (student.paymentDate && parseInt(student.paymentDate) < currentDay) {
+                        pending++;
+                    }
+                });
+                document.getElementById('pendingPayments').textContent = pending;
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Student management
+        function openAddStudentModal() {
+            document.getElementById('addStudentModal').classList.add('active');
+        }
+
+        function closeAddStudentModal() {
+            document.getElementById('addStudentModal').classList.remove('active');
+            document.getElementById('addStudentForm').reset();
+        }
+
+        document.getElementById('addStudentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const studentData = {
+                roll: document.getElementById('studentRoll').value,
+                name: document.getElementById('studentName').value,
+                class: document.getElementById('studentClass').value,
+                phone: document.getElementById('studentPhone').value,
+                monthlyFee: document.getElementById('monthlyFee').value,
+                paymentDate: document.getElementById('paymentDate').value,
+                previousResult: document.getElementById('previousResult').value,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                const { collection, addDoc } = window.firestoreFunctions;
+                await addDoc(collection(window.db, 'students'), studentData);
+                alert('শিক্ষার্থী সফলভাবে যোগ করা হয়েছে!');
+                closeAddStudentModal();
+                loadDashboardData();
+            } catch (error) {
+                console.error('Error adding student:', error);
+                alert('শিক্ষার্থী যোগ করতে সমস্যা হয়েছে!');
+            }
+        });
+
+        function displayStudents(students) {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+
+            students.forEach(student => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${student.roll}</td>
+                    <td>${student.name}</td>
+                    <td>ক্লাস ${student.class}</td>
+                    <td>${student.phone}</td>
+                    <td>৳${student.monthlyFee}</td>
+                    <td>${student.paymentDate} তারিখ</td>
+                    <td>
+                        <button class="action-btn view" onclick="viewStudent('${student.id}')">দেখুন</button>
+                        <button class="action-btn edit" onclick="editStudent('${student.id}')">এডিট</button>
+                        <button class="action-btn delete" onclick="deleteStudent('${student.id}')">ডিলিট</button>
+                    </td>
+                `;
+            });
+        }
+
+        async function searchStudents() {
+            const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
+            const filterClass = document.getElementById('filterClass').value;
+
+            try {
+                const { collection, getDocs } = window.firestoreFunctions;
+                const studentsSnapshot = await getDocs(collection(window.db, 'students'));
+                let students = [];
+                
+                studentsSnapshot.forEach(doc => {
+                    students.push({ id: doc.id, ...doc.data() });
+                });
+
+                students = students.filter(student => {
+                    const matchesSearch = !searchTerm || 
+                        student.name.toLowerCase().includes(searchTerm) ||
+                        student.roll.toLowerCase().includes(searchTerm) ||
+                        student.class.includes(searchTerm);
+                    
+                    const matchesClass = !filterClass || student.class === filterClass;
+                    
+                    return matchesSearch && matchesClass;
+                });
+
+                displayStudents(students);
+            } catch (error) {
+                console.error('Error searching students:', error);
+            }
+        }
+
+        async function deleteStudent(id) {
+            if (confirm('আপনি কি নিশ্চিত এই শিক্ষার্থীকে ডিলিট করতে চান?')) {
+                try {
+                    const { doc, deleteDoc } = window.firestoreFunctions;
+                    await deleteDoc(doc(window.db, 'students', id));
+                    alert('শিক্ষার্থী ডিলিট করা হয়েছে!');
+                    loadDashboardData();
+                } catch (error) {
+                    console.error('Error deleting student:', error);
+                }
+            }
+        }
+
+        // Attendance management
+        async function loadAttendance() {
+            const selectedClass = document.getElementById('attendanceClass').value;
+            if (!selectedClass) return;
+
+            const selectedDate = document.getElementById('attendanceDate').value;
+
+            try {
+                const { collection, getDocs, query, where } = window.firestoreFunctions;
+                const q = query(collection(window.db, 'students'), where('class', '==', selectedClass));
+                const studentsSnapshot = await getDocs(q);
+                
+                const tbody = document.getElementById('attendanceTableBody');
+                tbody.innerHTML = '';
+
+                for (const docSnap of studentsSnapshot.docs) {
+                    const student = { id: docSnap.id, ...docSnap.data() };
+                    
+                    // Check if attendance already exists for this date
+                    const attendanceQuery = query(
+                        collection(window.db, 'attendance'),
+                        where('studentId', '==', student.id),
+                        where('date', '==', selectedDate)
+                    );
+                    const attendanceSnapshot = await getDocs(attendanceQuery);
+                    const isPresent = !attendanceSnapshot.empty && attendanceSnapshot.docs[0].data().present;
+
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${student.roll}</td>
+                        <td>${student.name}</td>
+                        <td>
+                            <input type="checkbox" class="attendance-checkbox" 
+                                   data-student-id="${student.id}" 
+                                   ${isPresent ? 'checked' : ''}>
+                        </td>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading attendance:', error);
+            }
+        }
+
+        async function saveAttendance() {
+            const selectedDate = document.getElementById('attendanceDate').value;
+            const selectedClass = document.getElementById('attendanceClass').value;
+            
+            if (!selectedClass) {
+                alert('ক্লাস নির্বাচন করুন!');
+                return;
+            }
+
+            const checkboxes = document.querySelectorAll('.attendance-checkbox');
+            
+            try {
+                const { collection, addDoc, query, where, getDocs, deleteDoc, doc } = window.firestoreFunctions;
+                
+                for (const checkbox of checkboxes) {
+                    const studentId = checkbox.getAttribute('data-student-id');
+                    const isPresent = checkbox.checked;
+
+                    // Delete existing attendance for this date
+                    const existingQuery = query(
+                        collection(window.db, 'attendance'),
+                        where('studentId', '==', studentId),
+                        where('date', '==', selectedDate)
+                    );
+                    const existingSnapshot = await getDocs(existingQuery);
+                    for (const docSnap of existingSnapshot.docs) {
+                        await deleteDoc(doc(window.db, 'attendance', docSnap.id));
+                    }
+
+                    // Add new attendance record
+                    await addDoc(collection(window.db, 'attendance'), {
+                        studentId: studentId,
+                        date: selectedDate,
+                        present: isPresent,
+                        class: selectedClass
+                    });
+                }
+
+                alert('উপস্থিতি সংরক্ষণ করা হয়েছে!');
+                loadDashboardData();
+            } catch (error) {
+                console.error('Error saving attendance:', error);
+                alert('উপস্থিতি সংরক্ষণে সমস্যা হয়েছে!');
+            }
+        }
+
+        // Teacher management
+        function openAddTeacherModal() {
+            document.getElementById('addTeacherModal').classList.add('active');
+        }
+
+        function closeAddTeacherModal() {
+            document.getElementById('addTeacherModal').classList.remove('active');
+            document.getElementById('addTeacherForm').reset();
+        }
+
+        document.getElementById('addTeacherForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const teacherData = {
+                name: document.getElementById('teacherName').value,
+                subject: document.getElementById('teacherSubject').value,
+                phone: document.getElementById('teacherPhone').value,
+                email: document.getElementById('teacherEmail').value,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                const { collection, addDoc } = window.firestoreFunctions;
+                await addDoc(collection(window.db, 'teachers'), teacherData);
+                alert('শিক্ষক সফলভাবে যোগ করা হয়েছে!');
+                closeAddTeacherModal();
+                loadTeachers();
+            } catch (error) {
+                console.error('Error adding teacher:', error);
+                alert('শিক্ষক যোগ করতে সমস্যা হয়েছে!');
+            }
+        });
+
+        async function loadTeachers() {
+            try {
+                const { collection, getDocs } = window.firestoreFunctions;
+                const teachersSnapshot = await getDocs(collection(window.db, 'teachers'));
+                const tbody = document.getElementById('teachersTableBody');
+                tbody.innerHTML = '';
+
+                teachersSnapshot.forEach(doc => {
+                    const teacher = doc.data();
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${teacher.name}</td>
+                        <td>${teacher.subject}</td>
+                        <td>${teacher.phone}</td>
+                        <td>${teacher.email}</td>
+                        <td>
+                            <button class="action-btn edit" onclick="editTeacher('${doc.id}')">এডিট</button>
+                            <button class="action-btn delete" onclick="deleteTeacher('${doc.id}')">ডিলিট</button>
+                        </td>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading teachers:', error);
+            }
+        }
+
+        async function deleteTeacher(id) {
+            if (confirm('আপনি কি নিশ্চিত এই শিক্ষককে ডিলিট করতে চান?')) {
+                try {
+                    const { doc, deleteDoc } = window.firestoreFunctions;
+                    await deleteDoc(doc(window.db, 'teachers', id));
+                    alert('শিক্ষক ডিলিট করা হয়েছে!');
+                    loadTeachers();
+                    loadDashboardData();
+                } catch (error) {
+                    console.error('Error deleting teacher:', error);
+                }
+            }
+        }
+
+        // Tests management
+        async function loadTestsView() {
+            const container = document.getElementById('classTestsContainer');
+            container.innerHTML = '';
+
+            const classes = ['6', '7', '8', '9', '10', '11'];
+            const subjects = ['বাংলা', 'ইংরেজি', 'গণিত', 'বিজ্ঞান', 'সমাজ'];
+
+            for (const cls of classes) {
+                const classSection = document.createElement('div');
+                classSection.className = 'class-section';
+                classSection.innerHTML = `
+                    <h3 onclick="toggleClass(this)">ক্লাস ${cls}</h3>
+                    <div class="class-content"></div>
+                `;
+
+                const classContent = classSection.querySelector('.class-content');
+                
+                for (const subject of subjects) {
+                    const subjectCard = document.createElement('div');
+                    subjectCard.className = 'subject-card';
+                    subjectCard.innerHTML = `
+                        <strong>${subject}</strong>
+                        <button class="btn btn-primary" style="float: right; padding: 5px 15px;" 
+                                onclick="openTestModal('${cls}', '${subject}')">মার্কস এন্ট্রি করুন</button>
+                    `;
+                    classContent.appendChild(subjectCard);
+                }
+
+                container.appendChild(classSection);
+            }
+        }
+
+        function toggleClass(element) {
+            element.parentElement.classList.toggle('collapsed');
+        }
+
+        async function openTestModal(className, subject) {
+            document.getElementById('testModal').classList.add('active');
+            document.getElementById('testModalTitle').textContent = `ক্লাস ${className} - ${subject} - মার্কস এন্ট্রি`;
+            
+            window.currentTest = { class: className, subject: subject };
+
+            try {
+                const { collection, getDocs, query, where } = window.firestoreFunctions;
+                const q = query(collection(window.db, 'students'), where('class', '==', className));
+                const studentsSnapshot = await getDocs(q);
+                
+                const studentsList = document.getElementById('testStudentsList');
+                studentsList.innerHTML = '';
+
+                studentsSnapshot.forEach(doc => {
+                    const student = doc.data();
+                    const testEntry = document.createElement('div');
+                    testEntry.className = 'test-entry';
+                    testEntry.innerHTML = `
+                        <span style="flex: 1;">${student.name} (${student.roll})</span>
+                        <input type="number" placeholder="মার্কস" 
+                               data-student-id="${doc.id}" 
+                               data-student-name="${student.name}">
+                    `;
+                    studentsList.appendChild(testEntry);
+                });
+            } catch (error) {
+                console.error('Error loading students for test:', error);
+            }
+        }
+
+        function closeTestModal() {
+            document.getElementById('testModal').classList.remove('active');
+        }
+
+        async function saveTestResults() {
+            const testDate = document.getElementById('testDate').value;
+            const totalMarks = document.getElementById('totalMarks').value;
+
+            if (!testDate || !totalMarks) {
+                alert('তারিখ এবং মোট নম্বর দিন!');
+                return;
+            }
+
+            const inputs = document.querySelectorAll('#testStudentsList input[type="number"]');
+            
+            try {
+                const { collection, addDoc } = window.firestoreFunctions;
+                
+                for (const input of inputs) {
+                    if (input.value) {
+                        await addDoc(collection(window.db, 'tests'), {
+                            studentId: input.getAttribute('data-student-id'),
+                            studentName: input.getAttribute('data-student-name'),
+                            class: window.currentTest.class,
+                            subject: window.currentTest.subject,
+                            marks: input.value,
+                            totalMarks: totalMarks,
+                            date: testDate,
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                }
+
+                alert('পরীক্ষার ফলাফল সংরক্ষণ করা হয়েছে!');
+                closeTestModal();
+            } catch (error) {
+                console.error('Error saving test results:', error);
+                alert('ফলাফল সংরক্ষণে সমস্যা হয়েছে!');
+            }
+        }
+
+        // New Payment Tracking System - Class-based with date picker
+        async function loadPaymentsByClass() {
+            const selectedClass = document.getElementById('paymentClassFilter').value;
+            const paymentDate = document.getElementById('paymentDatePicker').value || new Date().toISOString().split('T')[0];
+            
+            if (!selectedClass) {
+                document.getElementById('paymentStudentsList').innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-light);">ক্লাস নির্বাচন করুন</p>';
+                return;
+            }
+
+            try {
+                const { collection, getDocs, query, where } = window.firestoreFunctions;
+                
+                // Get students of selected class
+                const studentsQuery = query(
+                    collection(window.db, 'students'),
+                    where('class', '==', selectedClass)
+                );
+                const studentsSnapshot = await getDocs(studentsQuery);
+                
+                // Get payment date info
+                const date = new Date(paymentDate);
+                const monthNames = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+                const month = monthNames[date.getMonth()];
+                const year = date.getFullYear();
+                
+                // Get all payments
+                const paymentsSnapshot = await getDocs(collection(window.db, 'payments'));
+                const paymentsMap = {};
+                paymentsSnapshot.forEach(doc => {
+                    const payment = doc.data();
+                    const key = `${payment.studentId}-${payment.month}-${payment.year}`;
+                    paymentsMap[key] = { ...payment, id: doc.id };
+                });
+
+                const container = document.getElementById('paymentStudentsList');
+                container.innerHTML = '';
+
+                if (studentsSnapshot.empty) {
+                    container.innerHTML = '<p style="text-align: center; padding: 40px;">কোনো শিক্ষার্থী পাওয়া যায়নি</p>';
+                    return;
+                }
+
+                studentsSnapshot.forEach(doc => {
+                    const student = doc.data();
+                    const studentId = doc.id;
+                    const paymentKey = `${studentId}-${month}-${year}`;
+                    const payment = paymentsMap[paymentKey];
+                    const isPaid = payment ? payment.isPaid : false;
+
+                    const card = document.createElement('div');
+                    card.style.cssText = 'background: white; padding: 20px; border-radius: 15px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; border: 2px solid ' + (isPaid ? 'var(--secondary)' : 'var(--border)');
+                    
+                    card.innerHTML = `
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0 0 10px 0; color: var(--text-dark);">${student.name}</h3>
+                            <p style="margin: 0; color: var(--text-light);">রোল: ${student.roll} | ক্লাস ${student.class} | মাসিক ফি: ৳${student.monthlyFee}</p>
+                            <p style="margin: 5px 0 0 0; color: var(--text-light); font-size: 0.9em;">পেমেন্ট মাস: ${month} ${year}</p>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span class="badge ${isPaid ? 'paid' : 'unpaid'}" style="padding: 10px 20px; font-size: 1em;">
+                                ${isPaid ? '✓ পরিশোধিত' : '✗ বকেয়া'}
+                            </span>
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; background: var(--bg-light); padding: 12px 20px; border-radius: 10px;">
+                                <input type="checkbox" 
+                                    ${isPaid ? 'checked' : ''} 
+                                    onchange="togglePayment('${studentId}', '${student.name}', '${student.class}', '${student.monthlyFee}', '${month}', '${year}', '${paymentDate}', this.checked, '${payment ? payment.id : ''}')"
+                                    style="width: 25px; height: 25px; cursor: pointer;">
+                                <span style="font-weight: 600; color: var(--text-dark);">পেমেন্ট করেছে</span>
+                            </label>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error loading payments:', error);
+                alert('পেমেন্ট লোড করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        async function togglePayment(studentId, studentName, studentClass, amount, month, year, paymentDate, isPaid, paymentId) {
+            try {
+                const { collection, addDoc, updateDoc, doc } = window.firestoreFunctions;
+                
+                if (paymentId) {
+                    // Update existing payment
+                    await updateDoc(doc(window.db, 'payments', paymentId), {
+                        isPaid: isPaid,
+                        paidDate: isPaid ? paymentDate : null
+                    });
+                } else {
+                    // Create new payment
+                    await addDoc(collection(window.db, 'payments'), {
+                        studentId: studentId,
+                        studentName: studentName,
+                        roll: document.querySelector(`[data-student-id="${studentId}"]`)?.dataset.roll || '',
+                        class: studentClass,
+                        month: month,
+                        year: year.toString(),
+                        amount: amount,
+                        isPaid: isPaid,
+                        paidDate: isPaid ? paymentDate : null,
+                        dueDate: `${parseInt(document.querySelector(`[data-student-id="${studentId}"]`)?.dataset.paymentDate || '5')}/${month}/${year}`
+                    });
+                }
+                
+                alert(isPaid ? 'পেমেন্ট সফলভাবে যোগ হয়েছে! ✅' : 'পেমেন্ট বাতিল করা হয়েছে');
+                loadPaymentsByClass(); // Reload
+                
+            } catch (error) {
+                console.error('Error toggling payment:', error);
+                alert('পেমেন্ট আপডেট করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        // Download student full report from public view
+        function displayPublicStudentsGrid(students, today, attendanceSnapshot) {
+            const grid = document.getElementById('publicStudentsGrid');
+            grid.innerHTML = '';
+
+            if (students.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; padding: 40px; color: var(--text-light);">কোনো শিক্ষার্থী পাওয়া যায়নি</p>';
+                return;
+            }
+
+            students.forEach(student => {
+                // Check attendance for today
+                let isPresent = false;
+                attendanceSnapshot.forEach(doc => {
+                    const attendance = doc.data();
+                    if (attendance.studentId === student.id && attendance.date === today) {
+                        isPresent = attendance.present;
+                    }
+                });
+
+                const initial = student.name.charAt(0);
+                const statusClass = isPresent ? 'present' : 'absent';
+                const statusIcon = isPresent ? '✓' : '✗';
+                const statusText = isPresent ? 'উপস্থিত' : 'অনুপস্থিত';
+
+                const card = document.createElement('div');
+                card.className = 'student-card';
+                card.innerHTML = `
+                    <div class="student-card-header">
+                        <div class="student-avatar">${initial}</div>
+                        <div class="student-info">
+                            <h3>${student.name}</h3>
+                            <p>রোল নং: ${student.roll}</p>
+                        </div>
+                    </div>
+                    <div class="student-card-body">
+                        <span class="student-class">ক্লাস ${student.class}</span>
+                        <span class="student-status ${statusClass}">${statusIcon} ${statusText}</span>
+                    </div>
+                    <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.1); display: flex; gap: 10px;">
+                        <button onclick="showStudentDetails('${student.id}')" style="flex: 1; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            👁️ বিস্তারিত দেখুন
+                        </button>
+                        <button onclick="downloadStudentReport('${student.id}')" style="flex: 1; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            📥 রিপোর্ট ডাউনলোড
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function downloadStudentReport(studentId) {
+            try {
+                const { collection, doc, getDoc, getDocs, query, where } = window.firestoreFunctions;
+                
+                // Show loading
+                alert('রিপোর্ট তৈরি হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন');
+                
+                // Get student data
+                const studentDoc = await getDoc(doc(window.db, 'students', studentId));
+                const student = studentDoc.data();
+                
+                // Get attendance
+                const attendanceQuery = query(collection(window.db, 'attendance'), where('studentId', '==', studentId));
+                const attendanceSnapshot = await getDocs(attendanceQuery);
+                let totalDays = 0, presentDays = 0;
+                attendanceSnapshot.forEach(doc => {
+                    totalDays++;
+                    if (doc.data().present) presentDays++;
+                });
+                const attendancePercent = totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(1) : 0;
+                
+                // Get test results
+                const testsQuery = query(collection(window.db, 'tests'), where('studentId', '==', studentId));
+                const testsSnapshot = await getDocs(testsQuery);
+                const tests = [];
+                let totalMarks = 0, obtainedMarks = 0;
+                testsSnapshot.forEach(doc => {
+                    const test = doc.data();
+                    tests.push(test);
+                    totalMarks += parseInt(test.totalMarks);
+                    obtainedMarks += parseInt(test.marks);
+                });
+                tests.sort((a, b) => new Date(b.date) - new Date(a.date));
+                const avgPercentage = totalMarks > 0 ? ((obtainedMarks / totalMarks) * 100).toFixed(1) : 0;
+                
+                // Get payments
+                const paymentsQuery = query(collection(window.db, 'payments'), where('studentId', '==', studentId));
+                const paymentsSnapshot = await getDocs(paymentsQuery);
+                let paidCount = 0, unpaidCount = 0;
+                const payments = [];
+                paymentsSnapshot.forEach(doc => {
+                    const payment = doc.data();
+                    payments.push(payment);
+                    if (payment.isPaid) paidCount++; else unpaidCount++;
+                });
+
+                // Generate PDF report
+                const canvas = document.getElementById('reportCanvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 2480;
+                canvas.height = 3508;
+
+                // Background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Header gradient
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, 250);
+                gradient.addColorStop(0, '#667eea');
+                gradient.addColorStop(1, '#764ba2');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, 250);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 80px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('স্মার্ট কোচিং সেন্টার', canvas.width / 2, 110);
+                ctx.font = '50px Arial';
+                ctx.fillText('শিক্ষার্থীর সম্পূর্ণ রিপোর্ট', canvas.width / 2, 190);
+
+                // Student info
+                let y = 320;
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 65px Arial';
+                ctx.fillText(student.name, canvas.width / 2, y);
+                y += 60;
+                ctx.font = '45px Arial';
+                ctx.fillText(`রোল: ${student.roll} | ক্লাস ${student.class}`, canvas.width / 2, y);
+                y += 80;
+
+                // Stats boxes
+                ctx.textAlign = 'left';
+                const boxY = y;
+                const boxWidth = 700;
+                const boxHeight = 180;
+                const gap = 40;
+
+                // Attendance box
+                ctx.fillStyle = '#f0fdf4';
+                ctx.fillRect(140, boxY, boxWidth, boxHeight);
+                ctx.fillStyle = '#10b981';
+                ctx.font = 'bold 40px Arial';
+                ctx.fillText('উপস্থিতির হার', 180, boxY + 50);
+                ctx.font = 'bold 70px Arial';
+                ctx.fillText(`${attendancePercent}%`, 180, boxY + 130);
+
+                // Performance box
+                ctx.fillStyle = '#eff6ff';
+                ctx.fillRect(140 + boxWidth + gap, boxY, boxWidth, boxHeight);
+                ctx.fillStyle = '#3b82f6';
+                ctx.font = 'bold 40px Arial';
+                ctx.fillText('গড় পারফরম্যান্স', 180 + boxWidth + gap, boxY + 50);
+                ctx.font = 'bold 70px Arial';
+                ctx.fillText(`${avgPercentage}%`, 180 + boxWidth + gap, boxY + 130);
+
+                y = boxY + boxHeight + 60;
+
+                // Test results section
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 50px Arial';
+                ctx.fillText('সাম্প্রতিক পরীক্ষার ফলাফল', 140, y);
+                y += 60;
+
+                tests.slice(0, 10).forEach(test => {
+                    const percentage = ((parseInt(test.marks) / parseInt(test.totalMarks)) * 100).toFixed(0);
+                    const gradeColor = percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444';
+                    
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.fillRect(140, y - 35, canvas.width - 280, 70);
+                    
+                    ctx.fillStyle = '#1e293b';
+                    ctx.font = '35px Arial';
+                    ctx.fillText(`${test.subject}`, 180, y);
+                    ctx.fillText(new Date(test.date).toLocaleDateString('bn-BD'), 750, y);
+                    
+                    ctx.fillStyle = gradeColor;
+                    ctx.font = 'bold 40px Arial';
+                    ctx.fillText(`${test.marks}/${test.totalMarks} (${percentage}%)`, 1500, y);
+                    
+                    y += 70;
+                    if (y > 3200) return;
+                });
+
+                // Footer
+                ctx.fillStyle = '#64748b';
+                ctx.font = '32px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`রিপোর্ট তৈরি: ${new Date().toLocaleDateString('bn-BD')}`, canvas.width / 2, 3400);
+
+                // Download
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `রিপোর্ট-${student.name}-${student.roll}.png`;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    alert('রিপোর্ট ডাউনলোড সম্পন্ন! ✅');
+                });
+
+            } catch (error) {
+                console.error('Error downloading report:', error);
+                alert('রিপোর্ট ডাউনলোড করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        // Current payment being edited
+        let currentEditingPaymentId = null;
+
+        async function editPayment(paymentId) {
+            try {
+                const { doc, getDoc } = window.firestoreFunctions;
+                
+                const paymentDoc = await getDoc(doc(window.db, 'payments', paymentId));
+                const payment = paymentDoc.data();
+                
+                currentEditingPaymentId = paymentId;
+                
+                // Fill the form
+                document.getElementById('editPaymentStudentName').value = payment.studentName;
+                document.getElementById('editPaymentClass').value = 'ক্লাস ' + payment.class;
+                document.getElementById('editPaymentMonth').value = payment.month;
+                document.getElementById('editPaymentYear').value = payment.year;
+                document.getElementById('editPaymentAmount').value = payment.amount;
+                document.getElementById('editPaymentStatus').value = payment.isPaid.toString();
+                document.getElementById('editPaymentDate').value = payment.paidDate || '';
+                
+                // Show modal
+                document.getElementById('paymentEditModal').classList.add('active');
+                
+            } catch (error) {
+                console.error('Error loading payment for edit:', error);
+                alert('পেমেন্ট লোড করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        function closePaymentEditModal() {
+            document.getElementById('paymentEditModal').classList.remove('active');
+            currentEditingPaymentId = null;
+        }
+
+        async function updatePayment() {
+            if (!currentEditingPaymentId) return;
+            
+            const amount = document.getElementById('editPaymentAmount').value;
+            const isPaid = document.getElementById('editPaymentStatus').value === 'true';
+            const paidDate = document.getElementById('editPaymentDate').value;
+            
+            if (!amount) {
+                alert('পরিমাণ লিখুন!');
+                return;
+            }
+            
+            try {
+                const { doc, updateDoc } = window.firestoreFunctions;
+                
+                await updateDoc(doc(window.db, 'payments', currentEditingPaymentId), {
+                    amount: amount,
+                    isPaid: isPaid,
+                    paidDate: paidDate || null
+                });
+                
+                alert('পেমেন্ট সফলভাবে আপডেট হয়েছে!');
+                closePaymentEditModal();
+                loadPayments();
+                loadDashboardData();
+                
+            } catch (error) {
+                console.error('Error updating payment:', error);
+                alert('পেমেন্ট আপডেট করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        async function quickMarkAsPaid(paymentId) {
+            if (!confirm('এই পেমেন্ট পরিশোধিত হিসেবে মার্ক করবেন?')) return;
+            
+            try {
+                const { doc, updateDoc } = window.firestoreFunctions;
+                
+                await updateDoc(doc(window.db, 'payments', paymentId), {
+                    isPaid: true,
+                    paidDate: new Date().toISOString().split('T')[0]
+                });
+                
+                alert('পেমেন্ট সফলভাবে আপডেট হয়েছে!');
+                loadPayments();
+                loadDashboardData();
+            } catch (error) {
+                console.error('Error updating payment:', error);
+                alert('পেমেন্ট আপডেট করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        async function viewPaymentHistory(studentId, studentName) {
+            try {
+                const { collection, getDocs, query, where } = window.firestoreFunctions;
+                
+                const paymentsQuery = query(
+                    collection(window.db, 'payments'),
+                    where('studentId', '==', studentId)
+                );
+                
+                const paymentsSnapshot = await getDocs(paymentsQuery);
+                
+                let historyHtml = `
+                    <div style="padding: 20px; background: white; border-radius: 15px; max-width: 700px; margin: 20px auto;">
+                        <h3 style="margin-bottom: 20px; color: var(--primary);">${studentName} - পেমেন্ট হিস্টরি</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>মাস</th>
+                                        <th>বছর</th>
+                                        <th>পরিমাণ</th>
+                                        <th>স্ট্যাটাস</th>
+                                        <th>তারিখ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+                
+                const payments = [];
+                paymentsSnapshot.forEach(doc => {
+                    payments.push(doc.data());
+                });
+                
+                // Sort by year and month
+                payments.sort((a, b) => {
+                    if (a.year !== b.year) return b.year - a.year;
+                    const months = ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'];
+                    return months.indexOf(b.month) - months.indexOf(a.month);
+                });
+                
+                payments.forEach(payment => {
+                    historyHtml += `
+                        <tr>
+                            <td>${payment.month}</td>
+                            <td>${payment.year}</td>
+                            <td>৳${payment.amount}</td>
+                            <td>
+                                <span class="badge ${payment.isPaid ? 'paid' : 'unpaid'}">
+                                    ${payment.isPaid ? '✓ পরিশোধিত' : '✗ বকেয়া'}
+                                </span>
+                            </td>
+                            <td>${payment.paidDate || '-'}</td>
+                        </tr>
+                    `;
+                });
+                
+                historyHtml += `
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-primary" onclick="closePaymentHistory()" style="margin-top: 20px; width: 100%;">বন্ধ করুন</button>
+                    </div>
+                `;
+                
+                const modal = document.createElement('div');
+                modal.id = 'paymentHistoryModal';
+                modal.className = 'modal active';
+                modal.innerHTML = `<div class="modal-content" style="max-width: 800px;">${historyHtml}</div>`;
+                modal.onclick = function(e) {
+                    if (e.target === modal) closePaymentHistory();
+                };
+                document.body.appendChild(modal);
+                
+            } catch (error) {
+                console.error('Error loading payment history:', error);
+                alert('পেমেন্ট হিস্টরি লোড করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        function closePaymentHistory() {
+            const modal = document.getElementById('paymentHistoryModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        async function viewStudent(id) {
+            try {
+                const { collection, doc, getDoc, getDocs, query, where } = window.firestoreFunctions;
+                
+                const studentDoc = await getDoc(doc(window.db, 'students', id));
+                const student = studentDoc.data();
+                
+                // Get attendance stats
+                const attendanceQuery = query(collection(window.db, 'attendance'), where('studentId', '==', id));
+                const attendanceSnapshot = await getDocs(attendanceQuery);
+                let totalDays = 0, presentDays = 0;
+                attendanceSnapshot.forEach(doc => {
+                    totalDays++;
+                    if (doc.data().present) presentDays++;
+                });
+                const attendancePercent = totalDays > 0 ? ((presentDays / totalDays) * 100).toFixed(1) : 0;
+                
+                // Get test results
+                const testsQuery = query(collection(window.db, 'tests'), where('studentId', '==', id));
+                const testsSnapshot = await getDocs(testsQuery);
+                let testsHtml = '<h4>সাম্প্রতিক পরীক্ষার ফলাফল:</h4><table style="width: 100%; margin-top: 10px;"><thead><tr><th>তারিখ</th><th>বিষয়</th><th>মার্কস</th></tr></thead><tbody>';
+                
+                const tests = [];
+                testsSnapshot.forEach(doc => tests.push(doc.data()));
+                tests.sort((a, b) => new Date(b.date) - new Date(a.date));
+                tests.slice(0, 10).forEach(test => {
+                    testsHtml += `<tr><td>${test.date}</td><td>${test.subject}</td><td>${test.marks}/${test.totalMarks}</td></tr>`;
+                });
+                testsHtml += '</tbody></table>';
+                
+                const detailsHtml = `
+                    <div style="padding: 20px;">
+                        <h2 style="color: var(--primary); margin-bottom: 20px;">শিক্ষার্থীর বিস্তারিত তথ্য</h2>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                            <div><strong>রোল:</strong> ${student.roll}</div>
+                            <div><strong>নাম:</strong> ${student.name}</div>
+                            <div><strong>ক্লাস:</strong> ক্লাস ${student.class}</div>
+                            <div><strong>ফোন:</strong> ${student.phone}</div>
+                            <div><strong>মাসিক ফি:</strong> ৳${student.monthlyFee}</div>
+                            <div><strong>পেমেন্ট তারিখ:</strong> ${student.paymentDate} তারিখ</div>
+                            <div style="grid-column: 1 / -1;"><strong>পূর্ববর্তী ফলাফল:</strong> ${student.previousResult}</div>
+                            <div style="grid-column: 1 / -1;"><strong>উপস্থিতির হার:</strong> ${attendancePercent}% (${presentDays}/${totalDays} দিন)</div>
+                        </div>
+                        ${testsHtml}
+                        <button class="btn btn-primary" onclick="closeStudentView()" style="margin-top: 20px;">বন্ধ করুন</button>
+                    </div>
+                `;
+                
+                const modal = document.createElement('div');
+                modal.id = 'studentViewModal';
+                modal.className = 'modal active';
+                modal.innerHTML = `<div class="modal-content" style="max-width: 800px;">${detailsHtml}</div>`;
+                document.body.appendChild(modal);
+                
+            } catch (error) {
+                console.error('Error viewing student:', error);
+                alert('শিক্ষার্থীর তথ্য লোড করতে সমস্যা হয়েছে!');
+            }
+        }
+
+        function closeStudentView() {
+            const modal = document.getElementById('studentViewModal');
+            if (modal) modal.remove();
+        }
+
+        function editStudent(id) {
+            alert('এডিট ফিচার শীঘ্রই যোগ করা হবে!');
+        }
+
+        function editTeacher(id) {
+            alert('এডিট ফিচার শীঘ্রই যোগ করা হবে!');
         }
     </script>
 </body>
